@@ -1,0 +1,106 @@
+#pragma once
+
+#include "BlockingLockFreeQueue.h"
+#include "MThread.h"
+#include <boost/lockfree/queue.hpp>
+
+/**
+ * @class LockFreeQueueThread
+ * @brief Lock-Free 큐를 사용하는 쓰레드 기반 클래스.
+ *
+ * 고정 크기의 Lock-Free 큐를 기반으로 동작하는 쓰레드 클래스입니다.
+ * 쓰레드의 시작, 종료, 실행 로직을 관리하며, 비즈니스 로직은 `run()` 메서드에서 구현합니다.
+ *
+ * @tparam T 큐에서 처리할 데이터 타입.
+ *
+ * example
+class MyThread : public LockFreeQueueThread<int>
+{
+public:
+  bool push(const int &item) { return waiter_.push(item); }
+
+protected:
+  void run() override
+  {
+    int data;
+    while (waiter_.pop(data) == 0)
+    {
+      // 비지니스 처리
+      s_log << data;
+    }
+    // 종료처리.
+  }
+};
+
+int main()
+{
+  MyThread thread;
+  thread.start();
+  while (true)
+  {
+    thread.push(1);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+  }
+
+  return 0;
+}
+ */
+
+template<typename T, bool QUEUE_SIGNALED = true>
+class LockFreeQueueThread : public MThread
+{
+public:
+  /**
+   * @brief LockFreeQueueThread 생성자.
+   * @param capacity 큐의 고정 크기.
+   */
+  LockFreeQueueThread(const size_t &capacity = 10000) : waiter_(capacity) {}
+  virtual ~LockFreeQueueThread() {}
+
+          bool start() override;
+  virtual bool stop ();
+  virtual void run  () = 0;
+
+//  example
+//  void run() override
+//  {
+//    int data;
+//    while (waiter_.pop(data) == 0)
+//    {
+//      // 비지니스 처리
+//    }
+//    // 종료처리.
+//  }
+
+protected:
+  BlockingLockFreeQueue<T, QUEUE_SIGNALED> waiter_; ///< Lock-Free 큐 객체.
+};
+
+/**
+ * @brief 쓰레드를 시작합니다.
+ * @return 성공 시 true, 실패 시 false.
+ */
+template<typename T, bool QUEUE_SIGNALED> bool
+LockFreeQueueThread<T, QUEUE_SIGNALED>::start()
+{
+  if (waiter_.is_open() == false)
+    return false;
+
+  return MThread::start();
+}
+
+/**
+ * @brief Lock-Free 큐를 닫고, 쓰레드를 종료합니다.
+ * @return 성공 시 true, 실패 시 false.
+ */
+template<typename T, bool QUEUE_SIGNALED> bool
+LockFreeQueueThread<T, QUEUE_SIGNALED>::stop()
+{
+  if (waiter_.is_open() == false)
+    return true;
+
+  waiter_.close();
+  return MThread::join();
+}
+
+

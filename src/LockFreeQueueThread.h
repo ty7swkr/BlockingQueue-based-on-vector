@@ -18,7 +18,7 @@
  * @tparam T 큐에서 처리할 데이터 타입. false는 스피닝기반, true는 signal기반
  *
  * example
-class MyThread : public LockFreeQueueThread<int>
+class MyThread : public LockFreeQueueThread<false, int>
 {
 public:
   bool push(const int &item) { return waiter_.push(item); }

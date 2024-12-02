@@ -39,9 +39,9 @@ public:
 
 // 락프리 큐 테스트 클래스도 템플릿으로 변경
 template<size_t SIZE>
-class LockFreeTest : public LockFreeQueueThread<TestData<SIZE>, false> {
+class LockFreeTest : public LockFreeQueueThread<false, TestData<SIZE>> {
 public:
-  LockFreeTest(size_t count) : LockFreeQueueThread<TestData<SIZE>, false>(1000000), count_(count), processed_(0) {}
+  LockFreeTest(size_t count) : LockFreeQueueThread<false, TestData<SIZE>>(1000000), count_(count), processed_(0) {}
 
   int push(const TestData<SIZE>& data) { return this->waiter_.push(data); }
 

@@ -10,7 +10,8 @@
 // false : lock free queue의 spin기반 대기
 // 시그널 기반 : 대기시 cpu 점유을 0, 처리속도 느림.
 // 스핀 기반 : 대기시 cpu 점유율 ~10%(?), 처리속도 빠름.
-template<typename T, bool SIGNALED = false>
+//template<typename T, bool SIGNALED = false>
+template<bool SIGNALED, typename T, typename... Options>
 class BlockingLockFreeQueue
 {
 public:
@@ -125,7 +126,7 @@ protected:
   }
 
 private:
-  boost::lockfree::queue<T> queue_;
+  boost::lockfree::queue<T, Options...> queue_;
   MSignal signal_;
   std::atomic<bool> open_;
 };

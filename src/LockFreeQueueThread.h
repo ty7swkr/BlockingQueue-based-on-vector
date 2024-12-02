@@ -7,11 +7,12 @@
 /**
  * @class LockFreeQueueThread
  * @brief Lock-Free 큐를 사용하는 쓰레드 기반 클래스.
- *
+ * @details
  * 고정 크기의 Lock-Free 큐를 기반으로 동작하는 쓰레드 클래스입니다.
  * 쓰레드의 시작, 종료, 실행 로직을 관리하며, 비즈니스 로직은 `run()` 메서드에서 구현합니다.
+ * 템플릿 인자로 스피닝 기반의 동작과 SGINAL기반의 동작 두가지중 선택할 수 있습니다.
  *
- * @tparam T 큐에서 처리할 데이터 타입.
+ * @tparam T 큐에서 처리할 데이터 타입. false는 스피닝기반, true는 signal기반
  *
  * example
 class MyThread : public LockFreeQueueThread<int>
@@ -45,32 +46,21 @@ int main()
   return 0;
 }
  */
-
 template<typename T, bool QUEUE_SIGNALED = true>
 class LockFreeQueueThread : public MThread
 {
 public:
   /**
    * @brief LockFreeQueueThread 생성자.
+   * @details 주의 큐는 시작시 close한 상태로 시작함.(open = false)
    * @param capacity 큐의 고정 크기.
    */
-  LockFreeQueueThread(const size_t &capacity = 10000) : waiter_(capacity) {}
+  LockFreeQueueThread(const size_t &capacity = 10000) : waiter_(capacity, false) {}
   virtual ~LockFreeQueueThread() {}
 
           bool start() override;
   virtual bool stop ();
   virtual void run  () = 0;
-
-//  example
-//  void run() override
-//  {
-//    int data;
-//    while (waiter_.pop(data) == 0)
-//    {
-//      // 비지니스 처리
-//    }
-//    // 종료처리.
-//  }
 
 protected:
   BlockingLockFreeQueue<T, QUEUE_SIGNALED> waiter_; ///< Lock-Free 큐 객체.
@@ -83,9 +73,10 @@ protected:
 template<typename T, bool QUEUE_SIGNALED> bool
 LockFreeQueueThread<T, QUEUE_SIGNALED>::start()
 {
-  if (waiter_.is_open() == false)
-    return false;
+  if (waiter_.is_open() == true)
+    return true;
 
+  waiter_.open();
   return MThread::start();
 }
 

@@ -64,7 +64,11 @@ class BlockingTest : public BlockingVectorThread<TestData<SIZE>> {
 public:
   BlockingTest(size_t count) : BlockingVectorThread<TestData<SIZE>>(1000000), count_(count), processed_(0) {}
 
-  bool push(const TestData<SIZE>& data) { return this->waiter_.push(data) == 0; }
+  bool push(const TestData<SIZE>& data)
+  {
+    return (this->waiter_.backoff_push(data) == 0);
+  }
+
   size_t processed() const { return processed_; }
 
 protected:
@@ -72,7 +76,10 @@ protected:
     std::vector<TestData<SIZE>> items;
     while (this->waiter_.pop(items) == 0) {
       for (auto &i : items)
+      {
+        (void)i;
         processed_++;
+      }
     }
 
     assert(processed_ == testCount);
@@ -145,7 +152,7 @@ void runPerformanceTest(size_t testCount) {
 
   std::cout << "Performance Comparison:\n";
   std::cout << "- Blocking Vector is " << std::fixed << std::setprecision(2)
-                  << timeImprovement << "% faster\n";
+                      << timeImprovement << "% faster\n";
   std::cout << "---------------------------------------------\n";
 }
 

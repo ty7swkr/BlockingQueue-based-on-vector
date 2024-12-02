@@ -14,12 +14,17 @@ template<typename T, bool SIGNALED = false>
 class BlockingLockFreeQueue
 {
 public:
-  BlockingLockFreeQueue(const size_t &capacity = 10000)
-  : queue_(capacity), open_(true) {}
+  BlockingLockFreeQueue(const size_t &capacity = 10000, const bool &open = true)
+  : queue_(capacity), open_(open) {}
 
   ~BlockingLockFreeQueue() {}
 
   bool is_signaled() const { return SIGNALED; }
+
+  void open()
+  {
+    open_ = true;
+  }
 
   void close()
   {

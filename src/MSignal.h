@@ -5,12 +5,24 @@
 #include <chrono>
 #include <functional>
 
+// 시그널을 놓치는 문제와 가짜깨움이 발생하지 않도록 구현되어 있음.
+//
+// 단, 1:1 사용에서만 안전하게 사용 가능하며,
+// 1:N은 정상작동하지 않음.
+//
+// 1:N 혹은 N:N 모델로 사용하고자 한다면 MSignal을 그룹핑하여 사용하는 방법이 있음.
+//
+// lost Wakeup     - wait가 아닐때 signal을 보내면 wait를 받지 못함.
+// spurious Wakeup - POSIX나 모든 OS에서 signal을 줬을때 하나만 깨어나는 것이 아니라
+//                   동시에 여러 wait condition이 깨어나는 현상을 뜻합니다.
+//                   이는 OS의 성능 이슈이기 때문에 개발자 영역으로 남겨져 있습니다.
+//
+
 class MSignal
 {
 public:
   MSignal () = default;
   ~MSignal() = default;
-
 
   void notify_one()
   {
@@ -147,6 +159,7 @@ MSignal::wait(const uint32_t &msec)
 inline bool
 MSignal::wait(const uint32_t &msec, std::function<bool()> func)
 {
+  size_t count = 0;
   std::function<bool()> pred = [&]()
   {
     decltype(signaled_) signaled = signaled_;
@@ -154,11 +167,11 @@ MSignal::wait(const uint32_t &msec, std::function<bool()> func)
     if (signaled_ == true)
       signaled_ = false;
 
-    if (func != nullptr) if (func() == true)
-        return true;
+    if (count++ == 0) if (func != nullptr)
+      return func();
 
-    if (signaled == true)
-      return true;
+    if (signaled == true) if (func != nullptr)
+      return func();
 
     return false;
   };
@@ -177,6 +190,7 @@ MSignal::wait(const uint32_t &msec, std::function<bool()> func)
 inline void
 MSignal::wait(std::function<bool()> func)
 {
+  size_t count = 0;
   std::function<bool()> pred = [&]()
   {
     decltype(signaled_) signaled = signaled_;
@@ -184,11 +198,11 @@ MSignal::wait(std::function<bool()> func)
     if (signaled_ == true)
       signaled_ = false;
 
-    if (func != nullptr) if (func() == true)
-        return true;
+    if (count++ == 0) if (func != nullptr)
+      return func();
 
-    if (signaled == true)
-      return true;
+    if (signaled == true) if (func != nullptr)
+      return func();
 
     return false;
   };

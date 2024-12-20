@@ -167,13 +167,13 @@ MSignal::wait(const uint32_t &msec, std::function<bool()> func)
     if (signaled_ == true)
       signaled_ = false;
 
-    if (count++ == 0) if (func != nullptr)
-      return func();
+    if (func != nullptr)
+    {
+      if (count++ ==     0) return func(); // 최초.
+      if (signaled == true) return func();
+    }
 
-    if (signaled == true) if (func != nullptr)
-      return func();
-
-    return false;
+    return signaled;
   };
 
   std::unique_lock<std::mutex> lock(lock_);
@@ -198,13 +198,13 @@ MSignal::wait(std::function<bool()> func)
     if (signaled_ == true)
       signaled_ = false;
 
-    if (count++ == 0) if (func != nullptr)
-      return func();
+    if (func != nullptr)
+    {
+      if (count++ ==     0) return func(); // 최초.
+      if (signaled == true) return func();
+    }
 
-    if (signaled == true) if (func != nullptr)
-      return func();
-
-    return false;
+    return signaled;
   };
 
   std::unique_lock<std::mutex> lock(lock_);

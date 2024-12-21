@@ -6,11 +6,6 @@
 #include <memory>
 #include <sstream>
 #include <iomanip>
-#include <string>
-
-#include <pthread.h>
-#include <sys/syscall.h>
-#include <unistd.h>
 
 /**
  * @brief 쓰레드 클래스<br>
@@ -53,7 +48,9 @@ protected:
   mutable std::string thread_hex_;
 
 private:
-  bool        run_ = false;
+  std::mutex  lock_;
+  bool        start_  = false;
+  bool        run_    = false;
   MSignal     run_signal_;
   std::string err_str_;
 };

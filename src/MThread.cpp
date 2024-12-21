@@ -12,14 +12,24 @@ MThread::executor(MThread *thread)
 bool
 MThread::join()
 {
+  std::lock_guard<std::mutex> guard(lock_);
+  if (start_ == false)
+    return false;
+
   run_signal_.wait([&]() { return run_ == false; });
+
   thread_->join();
+  start_ = false;
   return true;
 }
 
 bool
 MThread::start()
 {
+  std::lock_guard<std::mutex> guard(lock_);
+  if (start_ == true)
+    return false;
+
   try
   {
     err_str_.clear();
@@ -52,6 +62,7 @@ MThread::start()
 
   // 리턴값이 true면 wait에서 빠져나온다.
   // 리턴값이 false면 락을 풀고 wait 상태로 진입
+  start_ = true;
   run_signal_.wait([&]() { return run_; });
 
   return true;

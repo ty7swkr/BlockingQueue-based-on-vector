@@ -162,24 +162,34 @@ int main() {
   std::cout << "=== Performance Test ===\n";
 
   runPerformanceTest<8>(testCount);
+  std::cout << "sleep for...2 seconds" << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<32>(testCount);
+  std::cout << "sleep for...2 seconds" << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<64>(testCount);
+  std::cout << "sleep for...2 seconds" << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<128>(testCount);
+  std::cout << "sleep for...2 seconds" << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<512>(testCount);
+  std::cout << "sleep for...2 seconds" << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<1024>(testCount);
+  std::cout << "sleep for...2 seconds" << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<2048>(testCount);
+  std::cout << "sleep for...2 seconds" << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<4096>(testCount);
+  std::cout << "sleep for...2 seconds" << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<8192>(testCount);
+  std::cout << "sleep for...2 seconds" << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<10 * 1024>(testCount);
+  std::cout << "sleep for...2 seconds" << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<20 * 1024>(testCount);
 

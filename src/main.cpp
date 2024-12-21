@@ -123,7 +123,8 @@ void runPerformanceTest(size_t testCount) {
         << std::setprecision(3) << lockFreeTime << " seconds\n"
         << "Throughput: " << lockFreeThroughput << " ops/sec\n\n";
   }
-  std::this_thread::sleep_for(std::chrono::seconds(5));
+  std::cout << "sleep for...2 seconds" << std::endl;
+  std::this_thread::sleep_for(std::chrono::seconds(2));
 
   // 블로킹 벡터 테스트
   double blockingTime;
@@ -161,25 +162,25 @@ int main() {
   std::cout << "=== Performance Test ===\n";
 
   runPerformanceTest<8>(testCount);
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<32>(testCount);
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<64>(testCount);
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<128>(testCount);
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<512>(testCount);
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<1024>(testCount);
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<2048>(testCount);
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<4096>(testCount);
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<8192>(testCount);
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<10 * 1024>(testCount);
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<20 * 1024>(testCount);
 
   return 0;

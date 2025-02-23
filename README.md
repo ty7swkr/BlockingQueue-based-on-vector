@@ -17,7 +17,7 @@ This source is available under MIT license. While you can use it as-is, its simp
 ### Requirements
 - Compiler that supports C++11.
 
-Short benchmark
+### Short benchmark
 * Test Environment:
   - AMD 7945HX
   - i9-9900K CPU @ 3.60GHz
@@ -25,6 +25,7 @@ Short benchmark
   - Both boost::lockfree::queue and BlockingVector have 100,000 spare buffers per block
   - 1:1 exchange between Producer and Consumer
   - 10,000,000 transmissions with varying block sizes: 8, 32, 64, 128, 512, 1024, 2048, 4096, 8192, 10240, 20480
+  - Note: Block size 20480 requires 32GB of memory
 * Implementation details:
   - Source code available in src/main.cpp
   - Benchmark source and table created using Claude (sonnet 3.5)

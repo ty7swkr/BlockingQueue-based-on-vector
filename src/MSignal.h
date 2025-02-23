@@ -81,7 +81,7 @@ public:
   std::unique_lock<std::mutex>
        scoped_acquire_lock() const
   {
-    return std::move(std::unique_lock<std::mutex>(this->lock_));
+    return std::unique_lock<std::mutex>(this->lock_);
   }
 
   void notify_one(std::unique_lock<std::mutex> &locked_lock)

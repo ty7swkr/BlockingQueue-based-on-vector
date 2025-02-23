@@ -162,7 +162,7 @@ MSignal::wait(const uint32_t &msec, std::function<bool()> func)
   size_t count = 0;
   std::function<bool()> pred = [&]()
   {
-    decltype(signaled_) signaled = signaled_;
+    bool signaled = signaled_;
 
     if (signaled_ == true)
       signaled_ = false;
@@ -173,7 +173,7 @@ MSignal::wait(const uint32_t &msec, std::function<bool()> func)
       if (signaled == true) return func();
     }
 
-    return signaled;
+    return false;
   };
 
   std::unique_lock<std::mutex> lock(lock_);
@@ -193,7 +193,7 @@ MSignal::wait(std::function<bool()> func)
   size_t count = 0;
   std::function<bool()> pred = [&]()
   {
-    decltype(signaled_) signaled = signaled_;
+    bool signaled = signaled_;
 
     if (signaled_ == true)
       signaled_ = false;
@@ -204,7 +204,7 @@ MSignal::wait(std::function<bool()> func)
       if (signaled == true) return func();
     }
 
-    return signaled;
+    return false;
   };
 
   std::unique_lock<std::mutex> lock(lock_);

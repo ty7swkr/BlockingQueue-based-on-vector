@@ -8,7 +8,7 @@ SOURCES	= MThread.cpp main.cpp \
 INCLUDE	+=	-I./
 
 ######################################## default
-LDFLAGS += -lrt -lpthread -lcrypto
+LDFLAGS += -lrt -lpthread
 
 CPPFLAGS += -g -D_REENTRANT
 CPPFLAGS += -O2 -std=c++11 -Wall -Wextra -Wfloat-equal -m64

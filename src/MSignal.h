@@ -173,7 +173,7 @@ MSignal::wait(const uint32_t &msec, std::function<bool()> func)
       if (signaled == true) return func();
     }
 
-    return false;
+    return signaled;
   };
 
   std::unique_lock<std::mutex> lock(lock_);
@@ -204,7 +204,7 @@ MSignal::wait(std::function<bool()> func)
       if (signaled == true) return func();
     }
 
-    return false;
+    return signaled;
   };
 
   std::unique_lock<std::mutex> lock(lock_);

@@ -162,14 +162,14 @@ MSignal::wait(const uint32_t &msec, std::function<bool()> func)
   size_t count = 0;
   std::function<bool()> pred = [&]()
   {
-    bool signaled = signaled_;
+    const bool signaled = signaled_;
 
     if (signaled_ == true)
       signaled_ = false;
 
     if (func != nullptr)
     {
-      if (count++ ==     0) return func(); // 최초.
+      if (count++  == 0   ) return func(); // 최초.
       if (signaled == true) return func();
     }
 
@@ -193,14 +193,14 @@ MSignal::wait(std::function<bool()> func)
   size_t count = 0;
   std::function<bool()> pred = [&]()
   {
-    bool signaled = signaled_;
+    const bool signaled = signaled_;
 
     if (signaled_ == true)
       signaled_ = false;
 
     if (func != nullptr)
     {
-      if (count++ ==     0) return func(); // 최초.
+      if (count++  == 0   ) return func(); // 최초.
       if (signaled == true) return func();
     }
 

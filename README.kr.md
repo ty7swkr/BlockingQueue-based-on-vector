@@ -1,3 +1,5 @@
+*Read this in other languages: [English](README.md)*
+
 # BlockingVector Queue
 이 소스는 boost::lockfree::queue 대비 더 빠른 std::vector기반의 Producer-Consumer Pattern 용 큐이며 아래 벤치마크는 더욱 인상적일 것입니다.
 C++ 표준라이브러리를 그대로 사용하였으며 코드는 굉장히 간단(signal+blockingvector = 약 400라인, 쓰레드 제외)합니다.

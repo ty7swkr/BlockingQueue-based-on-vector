@@ -137,7 +137,7 @@ BlockingVector<T>::BlockingVector(const size_t &reserve_size, const bool &open)
 template<typename T> void
 BlockingVector<T>::open()
 {
-  auto lock = signal_.scoped_acquire_lock();
+  auto lock_guard = signal_.scoped_acquire_lock();
   open_ = true;
 }
 

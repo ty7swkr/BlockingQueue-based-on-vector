@@ -58,7 +58,7 @@ public:
    * @details 주의 큐는 시작시 close한 상태로 시작함.(open = false)
    * @param capacity 큐의 고정 크기.
    */
-  LockFreeQueueThread(const size_t &capacity = 10000) : waiter_(capacity, false) {}
+  LockFreeQueueThread(size_t capacity = 10000) : waiter_(capacity, false) {}
   virtual ~LockFreeQueueThread() {}
 
           bool start() override;

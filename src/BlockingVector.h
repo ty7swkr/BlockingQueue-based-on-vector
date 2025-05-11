@@ -44,15 +44,15 @@ public:
 
   /**
    * @brief 벡터의 용량 확인
-   * @param size 예약된 용량
+   * @return size 현재 용량
    */
-  size_t capacity() const { return container_.capacity(); }
+  size_t capacity() const;
 
   /**
    * @brief 벡터의 예약된 용량 확인
-   * @param size 예약된 용량
+   * @return size 예약된 용량
    */
-  size_t reserve_size() const { return reserve_size_; }
+  size_t reserve_size() const;
 
   /**
    * @brief 아이템을 벡터에 추가
@@ -137,7 +137,7 @@ BlockingVector<T>::BlockingVector(const size_t &reserve_size, const bool &open)
 template<typename T> void
 BlockingVector<T>::open()
 {
-  auto lock_guard = signal_.scoped_acquire_lock();
+  auto lock = signal_.scoped_acquire_lock();
   open_ = true;
 }
 
@@ -160,8 +160,23 @@ BlockingVector<T>::is_open() const
 template<typename T> void
 BlockingVector<T>::reserve(const size_t &size)
 {
+  auto lock_guard = signal_.scoped_acquire_lock();
   reserve_size_ = size;
   container_.reserve(size);
+}
+
+template<typename T> size_t
+BlockingVector<T>::capacity() const
+{
+  auto lock_guard = signal_.scoped_acquire_lock();
+  return container_.capacity();
+}
+
+template<typename T> size_t
+BlockingVector<T>::reserve_size() const
+{
+  auto lock_guard = signal_.scoped_acquire_lock();
+  return reserve_size_;
 }
 
 template<typename T> int
@@ -247,6 +262,7 @@ BlockingVector<T>::pop(std::vector<T> &items, const uint32_t &msec)
 template<typename T> void
 BlockingVector<T>::swap(std::vector<T> &items)
 {
+  auto lock_guard = signal_.scoped_acquire_lock();
   container_.swap(items);
 }
 

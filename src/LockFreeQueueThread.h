@@ -76,7 +76,7 @@ protected:
 template<bool SIGNALED, typename T, typename... Options> bool
 LockFreeQueueThread<SIGNALED, T, Options...>::start()
 {
-  if (waiter_.is_open() == true)
+  if (MThread::is_run() == true)
     return true;
 
   waiter_.open();
@@ -90,11 +90,12 @@ LockFreeQueueThread<SIGNALED, T, Options...>::start()
 template<bool SIGNALED, typename T, typename... Options> bool
 LockFreeQueueThread<SIGNALED, T, Options...>::stop()
 {
-  if (waiter_.is_open() == false)
+  if (MThread::is_run() == false)
     return true;
 
   waiter_.close();
   return MThread::join();
 }
+
 
 

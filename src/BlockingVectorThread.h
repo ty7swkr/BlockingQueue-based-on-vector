@@ -14,20 +14,20 @@ template<typename T = int>
 class BlockingVectorThread : public MThread
 {
 public:
-  BlockingVectorThread(const size_t &reserve_size = 10000);
+  BlockingVectorThread(size_t reserve_size = 10000);
   virtual ~BlockingVectorThread() {}
 
           bool start() override;
   virtual bool stop ();
 
-  void    reserve(const size_t &size) { waiter_.reserve(size); }
+  void    reserve(size_t size) { waiter_.reserve(size); }
 
 protected:
   BlockingVector<T> waiter_;
 };
 
 template<typename T>
-BlockingVectorThread<T>::BlockingVectorThread(const size_t &reserve_size)
+BlockingVectorThread<T>::BlockingVectorThread(size_t reserve_size)
 : waiter_(reserve_size, false)
 {
 }

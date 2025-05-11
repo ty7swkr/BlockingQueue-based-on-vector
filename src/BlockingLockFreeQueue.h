@@ -15,7 +15,7 @@ template<bool SIGNALED, typename T, typename... Options>
 class BlockingLockFreeQueue
 {
 public:
-  BlockingLockFreeQueue(const size_t &capacity = 10000, const bool &open = true)
+  BlockingLockFreeQueue(size_t capacity = 10000, bool open = true)
   : queue_(capacity), open_(open) {}
 
   ~BlockingLockFreeQueue() {}

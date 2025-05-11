@@ -103,18 +103,18 @@ public:
   // MSignal을 그룹핑하여 사용하는 방법이 있음.
 
   // false : timeout, true : wakeup
-  bool wait(const uint32_t &msec = 0);
+  bool wait(uint32_t msec = 0);
 
   // func가 true를 리턴하면 wait가 즉시 깨어남
   // 대기전 락을 걸고 func호출 false이면 대기->깨어났을때 다시 func호출->이때 fale이면 다시 대기...
   void wait(std::function<bool()> func);
 
   // false : timeout, true : wakeup
-  bool wait(const uint32_t &msec, std::function<bool()> func);
+  bool wait(uint32_t msec, std::function<bool()> func);
 
   // lock은 자동 언락됨. 이때 lock는 scoped_acquire_lock의 락을 사용해야함.
   // false : timeout, true : wakeup
-  bool wait(std::unique_lock<std::mutex> &lock, const uint32_t &msec = 0);
+  bool wait(std::unique_lock<std::mutex> &lock, uint32_t msec = 0);
 
 protected:
   void notify_one_nolock()
@@ -133,7 +133,7 @@ private:
 };
 
 inline bool
-MSignal::wait(const uint32_t &msec)
+MSignal::wait(uint32_t msec)
 {
   std::function<bool()> pred = [&]()
   {
@@ -157,7 +157,7 @@ MSignal::wait(const uint32_t &msec)
 }
 
 inline bool
-MSignal::wait(const uint32_t &msec, std::function<bool()> func)
+MSignal::wait(uint32_t msec, std::function<bool()> func)
 {
   size_t count = 0;
   std::function<bool()> pred = [&]()
@@ -212,7 +212,7 @@ MSignal::wait(std::function<bool()> func)
 }
 
 inline bool
-MSignal::wait(std::unique_lock<std::mutex> &lock, const uint32_t &msec)
+MSignal::wait(std::unique_lock<std::mutex> &lock, uint32_t msec)
 {
   std::function<bool()> pred = [&]()
   {

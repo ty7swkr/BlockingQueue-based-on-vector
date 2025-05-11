@@ -35,7 +35,7 @@ BlockingVectorThread<T>::BlockingVectorThread(const size_t &reserve_size)
 template<typename T> bool
 BlockingVectorThread<T>::start()
 {
-  if (waiter_.is_open() == true)
+  if (MThread::is_run() == true)
     return true;
 
   waiter_.open();
@@ -45,9 +45,10 @@ BlockingVectorThread<T>::start()
 template<typename T> bool
 BlockingVectorThread<T>::stop()
 {
-  if (waiter_.is_open() == false)
+  if (MThread::is_run() == false)
     return true;
 
   waiter_.close();
   return MThread::join();
 }
+

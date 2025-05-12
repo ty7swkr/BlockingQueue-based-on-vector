@@ -88,10 +88,10 @@ public:
   /**
    * @brief 벡터에서 아이템들을 꺼냄
    * @param[out] items 아이템을 받을 벡터
-   * @param msec 타임아웃 (밀리초)
+   * @param tmout_msec 타임아웃 (밀리초)
    * @return 성공시 0, 닫혔으면 -1, 타임아웃시 ETIMEDOUT
    */
-  int pop(std::vector<T> &items, uint32_t msec = 0);
+  int pop(std::vector<T> &items, uint32_t tmout_msec = 0);
 
   /**
    * @brief 제공된 벡터와 내용을 교체
@@ -235,7 +235,7 @@ BlockingVector<T>::backoff_push(const T &item,
 }
 
 template<typename T> int
-BlockingVector<T>::pop(std::vector<T> &items, uint32_t msec)
+BlockingVector<T>::pop(std::vector<T> &items, uint32_t tmout_msec)
 {
   items.clear();
   if (items.capacity() < reserve_size_)
@@ -253,7 +253,7 @@ BlockingVector<T>::pop(std::vector<T> &items, uint32_t msec)
     if (open_ == false)
       return -1;
 
-    if (signal_.wait(lock_guard, msec) == false)
+    if (signal_.wait(lock_guard, tmout_msec) == false)
       return ETIMEDOUT;
   }
 }

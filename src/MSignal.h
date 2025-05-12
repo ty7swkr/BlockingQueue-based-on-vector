@@ -84,10 +84,10 @@ public:
     return std::unique_lock<std::mutex>(this->lock_);
   }
 
-  void notify_one(std::unique_lock<std::mutex> &locked_lock)
+  void notify_one(std::unique_lock<std::mutex> &lock_guard)
   {
     notify_one_nolock();
-    locked_lock.unlock();
+    lock_guard.unlock();
   }
 
   // 1:1 에서는 시그널을 놓치지 않도록 구현되어 있음.

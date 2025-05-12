@@ -33,7 +33,7 @@ public:
   // 기본 케이스 - 인자가 없는 람다, non-void 리턴
   template<typename F,
            typename = typename std::enable_if<!std::is_void<decltype(std::declval<F>()())>::value>::type>
-  auto notify_one(F&& func) -> decltype(std::declval<F>()())
+  auto notify_one(F &&func) -> decltype(std::declval<F>()())
   {
       std::lock_guard<std::mutex> lock(lock_);
       auto result = std::forward<F>(func)();
@@ -45,7 +45,7 @@ public:
   template<typename F,
            typename = typename std::enable_if<std::is_void<decltype(std::declval<F>()())>::value>::type,
            typename = void>
-  void notify_one(F&& func)
+  void notify_one(F &&func)
   {
       std::lock_guard<std::mutex> lock(lock_);
       std::forward<F>(func)();
@@ -57,7 +57,7 @@ public:
            typename = typename std::enable_if<!std::is_void<decltype(std::declval<F>()(std::declval<std::unique_lock<std::mutex>&>()))>::value>::type,
            typename = void,
            typename = void>
-  auto notify_one(F&& func) -> decltype(std::declval<F>()(std::declval<std::unique_lock<std::mutex>&>()))
+  auto notify_one(F &&func) -> decltype(std::declval<F>()(std::declval<std::unique_lock<std::mutex>&>()))
   {
       std::unique_lock<std::mutex> lock(lock_);
       auto result = std::forward<F>(func)(lock);
@@ -71,7 +71,7 @@ public:
            typename = void, // 더미파라미터
            typename = void,
            typename = void>
-  void notify_one(F&& func)
+  void notify_one(F &&func)
   {
       std::unique_lock<std::mutex> lock(lock_);
       std::forward<F>(func)(lock);
@@ -103,18 +103,18 @@ public:
   // MSignal을 그룹핑하여 사용하는 방법이 있음.
 
   // false : timeout, true : wakeup
-  bool wait(uint32_t msec = 0);
+  bool wait(uint32_t tmout_msec = 0);
 
   // func가 true를 리턴하면 wait가 즉시 깨어남
   // 대기전 락을 걸고 func호출 false이면 대기->깨어났을때 다시 func호출->이때 fale이면 다시 대기...
   void wait(std::function<bool()> func);
 
   // false : timeout, true : wakeup
-  bool wait(uint32_t msec, std::function<bool()> func);
+  bool wait(uint32_t tmout_msec, std::function<bool()> func);
 
   // lock은 자동 언락됨. 이때 lock는 scoped_acquire_lock의 락을 사용해야함.
   // false : timeout, true : wakeup
-  bool wait(std::unique_lock<std::mutex> &lock, uint32_t msec = 0);
+  bool wait(std::unique_lock<std::mutex> &lock, uint32_t tmout_msec = 0);
 
 protected:
   void notify_one_nolock()
@@ -133,7 +133,7 @@ private:
 };
 
 inline bool
-MSignal::wait(uint32_t msec)
+MSignal::wait(uint32_t tmout_msec)
 {
   std::function<bool()> pred = [&]()
   {
@@ -146,18 +146,18 @@ MSignal::wait(uint32_t msec)
   };
 
   std::unique_lock<std::mutex> lock(lock_);
-  if (msec == 0)
+  if (tmout_msec == 0)
   {
     cond_.wait(lock, pred);
     return true;
   }
 
-  std::chrono::milliseconds timeout(msec);
+  std::chrono::milliseconds timeout(tmout_msec);
   return cond_.wait_for(lock, timeout, pred);
 }
 
 inline bool
-MSignal::wait(uint32_t msec, std::function<bool()> func)
+MSignal::wait(uint32_t tmout_msec, std::function<bool()> func)
 {
   size_t count = 0;
   std::function<bool()> pred = [&]()
@@ -177,13 +177,13 @@ MSignal::wait(uint32_t msec, std::function<bool()> func)
   };
 
   std::unique_lock<std::mutex> lock(lock_);
-  if (msec == 0)
+  if (tmout_msec == 0)
   {
     cond_.wait(lock, pred);
     return true;
   }
 
-  std::chrono::milliseconds timeout(msec);
+  std::chrono::milliseconds timeout(tmout_msec);
   return cond_.wait_for(lock, timeout, pred);
 }
 
@@ -212,7 +212,7 @@ MSignal::wait(std::function<bool()> func)
 }
 
 inline bool
-MSignal::wait(std::unique_lock<std::mutex> &lock, uint32_t msec)
+MSignal::wait(std::unique_lock<std::mutex> &lock, uint32_t tmout_msec)
 {
   std::function<bool()> pred = [&]()
   {
@@ -224,13 +224,13 @@ MSignal::wait(std::unique_lock<std::mutex> &lock, uint32_t msec)
     return false;
   };
 
-  if (msec == 0)
+  if (tmout_msec == 0)
   {
     cond_.wait(lock, pred);
     return true;
   }
 
-  std::chrono::milliseconds timeout(msec);
+  std::chrono::milliseconds timeout(tmout_msec);
   return cond_.wait_for(lock, timeout, pred);
 }
 

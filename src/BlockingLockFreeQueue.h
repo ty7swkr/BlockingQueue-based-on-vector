@@ -115,11 +115,14 @@ protected:
       if (open_.load() == false)
         return -1;
 
-      // 큐가 비어있으면 계속 실패
-      if (fails < 1000)
-        fails++;  // 초반엔 그냥 spin
-      else
-        std::this_thread::sleep_for(std::chrono::microseconds(1));  // 오래 걸리면 sleep
+      // 큐가 비어있으면 계속 실패, // 초반엔 그냥 spin
+      if (fails++ < 1000)
+      {
+        fails++;
+        continue;
+      }
+
+      std::this_thread::sleep_for(std::chrono::microseconds(1));  // 오래 걸리면 sleep
     }
 
     return 0;

@@ -2,11 +2,11 @@
 #include <iostream>
 
 void
-MThread::executor(MThread *thread)
+MThread::execute()
 {
-  thread->run_signal_.notify_one([&]() { thread->run_ = true; } );
-  thread->run();
-  thread->run_signal_.notify_one([&]() { thread->run_ = false; } );
+  run_signal_.notify_one([&]() { thread->run_ = true; } );
+  run();
+  run_signal_.notify_one([&]() { thread->run_ = false; } );
 }
 
 bool

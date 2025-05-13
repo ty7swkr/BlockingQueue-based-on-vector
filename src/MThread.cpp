@@ -4,9 +4,9 @@
 void
 MThread::execute()
 {
-  run_signal_.notify_one([&]() { thread->run_ = true; } );
+  run_signal_.notify_one([&]() { run_ = true; } );
   run();
-  run_signal_.notify_one([&]() { thread->run_ = false; } );
+  run_signal_.notify_one([&]() { run_ = false; } );
 }
 
 bool

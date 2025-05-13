@@ -40,7 +40,7 @@ protected:
   virtual void run() = 0;
 
 protected:
-  static  void executor(MThread *thread);
+  void execute();
 
 protected:
   std::shared_ptr<std::thread> thread_;

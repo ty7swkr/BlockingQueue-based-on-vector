@@ -33,7 +33,7 @@ MThread::start()
   try
   {
     err_str_.clear();
-    thread_ = std::make_shared<std::thread>(MThread::executor, this);
+    thread_ = std::make_shared<std::thread>(MThread::execute, this);
   }
   catch (const std::bad_alloc& e)
   {

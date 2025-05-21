@@ -5,6 +5,7 @@
 #include <vector>
 #include <thread>
 
+using nanosecs  = std::chrono::nanoseconds;
 using microsecs = std::chrono::microseconds;
 using millisecs = std::chrono::milliseconds;
 using seconds   = std::chrono::seconds;
@@ -17,7 +18,7 @@ public:
    * @brief 생성자
    * @param open 초기 열림 상태
    */
-  explicit BlockingVector(size_t reserve_size = 10000, bool open = true);
+  explicit BlockingVector(const size_t &reserve_size = 10000, const bool &open = true);
 
   ~BlockingVector() = default;
 
@@ -76,15 +77,17 @@ public:
    * @param sleep 대기시간.
    * @return 성공시 0, 닫혔으면 -1, max_tries도달시 EAGAIN
    */
-  int backoff_push(const T    &item,
-                   size_t     max_retries = 0,
-                   microsecs  sleep = microsecs(1)) { return backoff_push<size_t, std::micro>(item, max_retries, sleep); }
-  int backoff_push(const T &item, size_t    max_retries, millisecs  sleep) { return backoff_push<size_t, std::micro>  (item, max_retries, sleep); }
-  int backoff_push(const T &item, size_t    max_retries, seconds    sleep) { return backoff_push<size_t, seconds>     (item, max_retries, sleep); }
+  int backoff_push(const T        &item,
+                   const size_t   &max_retries = 0,
+                   const nanosecs &sleep       = nanosecs(10)) { return backoff_push<nanosecs::rep, nanosecs::period>(item, max_retries, sleep); }
+  int backoff_push(const T &item, const size_t    &max_retries, const microsecs  &sleep) { return backoff_push<microsecs::rep, microsecs::period>(item, max_retries, sleep); }
+  int backoff_push(const T &item, const size_t    &max_retries, const millisecs  &sleep) { return backoff_push<millisecs::rep, millisecs::period>(item, max_retries, sleep); }
+  int backoff_push(const T &item, const size_t    &max_retries, const seconds    &sleep) { return backoff_push<seconds::rep,   seconds::period>  (item, max_retries, sleep); }
 
-  int backoff_push(const T &item, microsecs sleep, size_t max_retries = 0) { return backoff_push<size_t, microsecs>   (item, max_retries, sleep); }
-  int backoff_push(const T &item, millisecs sleep, size_t max_retries = 0) { return backoff_push<size_t, millisecs>   (item, max_retries, sleep); }
-  int backoff_push(const T &item, seconds   sleep, size_t max_retries = 0) { return backoff_push<size_t, seconds>     (item, max_retries, sleep); }
+  int backoff_push(const T &item, const nanosecs  &sleep, const size_t &max_retries = 0) { return backoff_push<nanosecs::rep,  nanosecs::period> (item, max_retries, sleep); }
+  int backoff_push(const T &item, const microsecs &sleep, const size_t &max_retries = 0) { return backoff_push<microsecs::rep, microsecs::period>(item, max_retries, sleep); }
+  int backoff_push(const T &item, const millisecs &sleep, const size_t &max_retries = 0) { return backoff_push<millisecs::rep, millisecs::period>(item, max_retries, sleep); }
+  int backoff_push(const T &item, const seconds   &sleep, const size_t &max_retries = 0) { return backoff_push<seconds::rep,   seconds::period>  (item, max_retries, sleep); }
 
   /**
    * @brief 벡터에서 아이템들을 꺼냄
@@ -92,7 +95,7 @@ public:
    * @param tmout_msec 타임아웃 (밀리초)
    * @return 성공시 0, 닫혔으면 -1, 타임아웃시 ETIMEDOUT
    */
-  int pop(std::vector<T> &items, uint32_t tmout_msec = 0);
+  int pop(std::vector<T> &items, const uint32_t &tmout_msec = 0);
 
   /**
    * @brief 제공된 벡터와 내용을 교체
@@ -119,9 +122,9 @@ protected:
    * @return 성공시 0, 닫혔으면 -1, EAGAIN
    */
   template<typename Rep, typename Period>
-  int backoff_push(const T  &item,
-                   size_t   max_retries,
-                   std::chrono::duration<Rep, Period> sleep);
+  int backoff_push(const T      &item,
+                   const size_t &max_retries,
+                   const std::chrono::duration<Rep, Period> &sleep);
 
 protected:
   bool            open_ = true;
@@ -131,7 +134,7 @@ protected:
 };
 
 template<typename T>
-BlockingVector<T>::BlockingVector(size_t reserve_size, bool open)
+BlockingVector<T>::BlockingVector(const size_t &reserve_size, const bool &open)
 : open_(open) { this->reserve(reserve_size); }
 
 template<typename T> void
@@ -208,9 +211,9 @@ BlockingVector<T>::push(const T &item, size_t &remain_size)
 
 template<typename T>
 template<typename Rep, typename Period> int
-BlockingVector<T>::backoff_push(const T &item,
-                                size_t  max_retries,
-                                std::chrono::duration<Rep, Period> sleep)
+BlockingVector<T>::backoff_push(const T       &item,
+                                const size_t  &max_retries,
+                                const std::chrono::duration<Rep, Period> &sleep)
 {
   size_t retry_count = 0;
   return signal_.notify_one([&](std::unique_lock<std::mutex> &lock)
@@ -236,7 +239,7 @@ BlockingVector<T>::backoff_push(const T &item,
 }
 
 template<typename T> int
-BlockingVector<T>::pop(std::vector<T> &items, uint32_t tmout_msec)
+BlockingVector<T>::pop(std::vector<T> &items, const uint32_t &tmout_msec)
 {
   items.clear();
   if (items.capacity() < reserve_size_)

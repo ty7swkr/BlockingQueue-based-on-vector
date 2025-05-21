@@ -43,7 +43,10 @@ class LockFreeTest : public LockFreeQueueThread<false, TestData<SIZE>> {
 public:
   LockFreeTest(size_t count) : LockFreeQueueThread<false, TestData<SIZE>>(1000000), count_(count), processed_(0) {}
 
-  int push(const TestData<SIZE>& data) { return this->waiter_.push(data); }
+  int push(const TestData<SIZE>& data)
+  {
+    return this->waiter_.backoff_push(data, nanosecs(1));
+  }
 
 protected:
   void run() override {
@@ -109,7 +112,6 @@ void runPerformanceTest(size_t testCount) {
 
       int res = 0;
       while ((res = test.push(data)) > 0)
-        std::this_thread::yield();
       if (res < 0) break;
       ++processed;
     }

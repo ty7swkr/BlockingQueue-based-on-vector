@@ -4,6 +4,10 @@
 #include <boost/lockfree/queue.hpp>
 #include <thread>
 
+using nanosecs  = std::chrono::nanoseconds;
+using microsecs = std::chrono::microseconds;
+using millisecs = std::chrono::milliseconds;
+using seconds   = std::chrono::seconds;
 
 // SIGNALED
 // true  : c++ signal기반 대기
@@ -15,7 +19,7 @@ template<bool SIGNALED, typename T, typename... Options>
 class BlockingLockFreeQueue
 {
 public:
-  BlockingLockFreeQueue(size_t capacity = 10000, bool open = true)
+  BlockingLockFreeQueue(const size_t &capacity = 10000, const bool &open = true)
   : queue_(capacity), open_(open) {}
 
   ~BlockingLockFreeQueue() {}
@@ -51,6 +55,18 @@ public:
 
     return 0;
   }
+
+  int backoff_push(const T        &item,
+                   const size_t   &max_retries = 0,
+                   const nanosecs &sleep       = nanosecs(10)) { return backoff_push<nanosecs::rep, nanosecs::period>(item, max_retries, sleep); }
+  int backoff_push(const T &item, const size_t    &max_retries, const microsecs  &sleep) { return backoff_push<microsecs::rep, microsecs::period>(item, max_retries, sleep); }
+  int backoff_push(const T &item, const size_t    &max_retries, const millisecs  &sleep) { return backoff_push<millisecs::rep, millisecs::period>(item, max_retries, sleep); }
+  int backoff_push(const T &item, const size_t    &max_retries, const seconds    &sleep) { return backoff_push<seconds::rep,   seconds::period>  (item, max_retries, sleep); }
+
+  int backoff_push(const T &item, const nanosecs  &sleep, const size_t &max_retries = 0) { return backoff_push<nanosecs::rep,  nanosecs::period> (item, max_retries, sleep); }
+  int backoff_push(const T &item, const microsecs &sleep, const size_t &max_retries = 0) { return backoff_push<microsecs::rep, microsecs::period>(item, max_retries, sleep); }
+  int backoff_push(const T &item, const millisecs &sleep, const size_t &max_retries = 0) { return backoff_push<millisecs::rep, millisecs::period>(item, max_retries, sleep); }
+  int backoff_push(const T &item, const seconds   &sleep, const size_t &max_retries = 0) { return backoff_push<seconds::rep,   seconds::period>  (item, max_retries, sleep); }
 
   // 0 : 정상수신
   // -1 : 큐 닫힘
@@ -123,6 +139,24 @@ protected:
       }
 
       std::this_thread::sleep_for(std::chrono::microseconds(1));  // 오래 걸리면 sleep
+    }
+
+    return 0;
+  }
+protected:
+  template<typename Rep, typename Period>
+  int backoff_push(const T      &item,
+                   const size_t &max_retries,
+                   const std::chrono::duration<Rep, Period> &sleep)
+  {
+    size_t retry_count = 0;
+    while (queue_.push(item) == false)
+    {
+      if (max_retries > 0)
+        if (retry_count++ >= max_retries)
+          return EAGAIN;  // 최대 재시도 횟수 초과
+
+      std::this_thread::sleep_for(sleep);
     }
 
     return 0;

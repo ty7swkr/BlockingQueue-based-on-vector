@@ -5,13 +5,22 @@
 #include <vector>
 #include <thread>
 
+/**
+ * @brief 블로킹 벡터 클래스
+ * 
+ * 스레드 안전한 벡터 컨테이너로, 데이터 접근 시 블로킹 동작을 제공합니다.
+ * 내부적으로 MSignal을 사용하여 동기화를 처리하며, 열림/닫힘 상태를 관리합니다.
+ * 
+ * @tparam T 저장할 데이터 타입
+ */
 template<typename T>
 class BlockingVector
 {
 public:
   /**
    * @brief 생성자
-   * @param open 초기 열림 상태
+   * @param reserve_size 벡터의 초기 예약 크기 (기본값: 10000)
+   * @param open 초기 열림 상태 (기본값: true)
    */
   explicit BlockingVector(const size_t &reserve_size = 10000, const bool &open = true);
 
@@ -65,12 +74,18 @@ public:
    */
   int push(const T &item, size_t &remain_size);
 
+
   /**
-   * @brief push시 capacity에 도달하면 sleep만큼 대기하고 시도.
+   * @brief 백오프 전략을 사용하여 아이템을 벡터에 추가
+   * 
+   * 벡터가 가득 찼을 경우 지정된 시간만큼 대기한 후 재시도합니다.
+   * 최대 재시도 횟수를 초과하면 EAGAIN을 반환합니다.
+   * 
+   * @tparam DURATION_TYPE 대기 시간의 타입 (기본값: std::chrono::nanoseconds)
    * @param item 추가할 아이템
-   * @param max_retries 최대 시도회수. 0이면 무한.
-   * @param sleep 대기시간.
-   * @return 성공시 0, 닫혔으면 -1, max_tries도달시 EAGAIN
+   * @param sleep 재시도 간 대기 시간 (기본값: 10 나노초)
+   * @param max_retries 최대 재시도 횟수 (0은 무제한 재시도)
+   * @return 성공시 0, 닫혔으면 -1, 최대 재시도 초과시 EAGAIN
    */
   template<typename DURATION_TYPE = std::chrono::nanoseconds>
   int backoff_push(const T              &item,
@@ -104,9 +119,25 @@ public:
   std::vector<T> container() const;
 
 protected:
+  /**
+   * @brief 벡터의 열림/닫힘 상태
+   * true: 열림 상태, false: 닫힘 상태
+   */
   bool            open_ = true;
+  
+  /**
+   * @brief 동기화를 위한 신호 객체
+   */
   mutable MSignal signal_;
+  
+  /**
+   * @brief 내부 데이터 저장 컨테이너
+   */
   std::vector<T>  container_;
+  
+  /**
+   * @brief 벡터의 예약 크기
+   */
   size_t          reserve_size_ = 10000;
 };
 

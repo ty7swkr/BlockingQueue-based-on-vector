@@ -24,9 +24,9 @@ const size_t testCount = 10000000;  //
 
 // Timer 클래스는 그대로 유지
 class Timer {
-  using Clock = std::chrono::high_resolution_clock;
+  using Clock     = std::chrono::high_resolution_clock;
   using TimePoint = std::chrono::time_point<Clock>;
-  using Duration = std::chrono::duration<double>;
+  using Duration  = std::chrono::duration<double>;
 
   TimePoint start_;
 public:
@@ -45,7 +45,7 @@ public:
 
   int push(const TestData<SIZE>& data)
   {
-    return this->waiter_.backoff_push(data, nanosecs(1));
+    return this->waiter_.backoff_push(data, std::chrono::nanoseconds(1));
   }
 
 protected:
@@ -95,8 +95,35 @@ private:
 
 template<size_t SIZE>
 void runPerformanceTest(size_t testCount) {
+  std::cout << "sleep for...2 seconds" << std::endl;
+  std::this_thread::sleep_for(std::chrono::seconds(2));
+
   std::cout << "\nStarting performance test with " << testCount
       << " items, block size: " << SIZE << " bytes\n";
+
+  // 블로킹 벡터 테스트
+  double blockingTime;
+  double blockingThroughput;
+  {
+    Timer timer;
+    BlockingTest<SIZE> test(testCount);
+    test.start();
+
+    TestData<SIZE> data;
+    for (size_t i = 0; i < testCount; ++i) {
+      if (test.push(data) == false)
+        assert(false);
+    }
+
+    test.stop();
+    blockingTime = timer.elapsed();
+    blockingThroughput = testCount / blockingTime;
+    std::cout << "Blocking Vector completed in " << std::fixed
+        << std::setprecision(3) << blockingTime << " seconds\n"
+        << "Throughput: " << blockingThroughput << " ops/sec\n\n";
+  }
+  std::cout << "sleep for...2 seconds" << std::endl;
+  std::this_thread::sleep_for(std::chrono::seconds(2));
 
   // 락프리 큐 테스트
   double lockFreeTime;
@@ -125,30 +152,6 @@ void runPerformanceTest(size_t testCount) {
         << std::setprecision(3) << lockFreeTime << " seconds\n"
         << "Throughput: " << lockFreeThroughput << " ops/sec\n\n";
   }
-  std::cout << "sleep for...2 seconds" << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(2));
-
-  // 블로킹 벡터 테스트
-  double blockingTime;
-  double blockingThroughput;
-  {
-    Timer timer;
-    BlockingTest<SIZE> test(testCount);
-    test.start();
-
-    TestData<SIZE> data;
-    for (size_t i = 0; i < testCount; ++i) {
-      if (test.push(data) == false)
-        assert(false);
-    }
-
-    test.stop();
-    blockingTime = timer.elapsed();
-    blockingThroughput = testCount / blockingTime;
-    std::cout << "Blocking Vector completed in " << std::fixed
-        << std::setprecision(3) << blockingTime << " seconds\n"
-        << "Throughput: " << blockingThroughput << " ops/sec\n\n";
-  }
 
   // 성능 차이를 퍼센트로 계산
   double timeImprovement = ((lockFreeTime / blockingTime) - 1) * 100.0;
@@ -164,35 +167,15 @@ int main() {
   std::cout << "=== Performance Test ===\n";
 
   runPerformanceTest<8>(testCount);
-  std::cout << "sleep for...2 seconds" << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<32>(testCount);
-  std::cout << "sleep for...2 seconds" << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<64>(testCount);
-  std::cout << "sleep for...2 seconds" << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<128>(testCount);
-  std::cout << "sleep for...2 seconds" << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<512>(testCount);
-  std::cout << "sleep for...2 seconds" << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<1024>(testCount);
-  std::cout << "sleep for...2 seconds" << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<2048>(testCount);
-  std::cout << "sleep for...2 seconds" << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<4096>(testCount);
-  std::cout << "sleep for...2 seconds" << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<8192>(testCount);
-  std::cout << "sleep for...2 seconds" << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<10 * 1024>(testCount);
-  std::cout << "sleep for...2 seconds" << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(2));
   runPerformanceTest<20 * 1024>(testCount);
 
   return 0;

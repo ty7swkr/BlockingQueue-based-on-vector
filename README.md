@@ -13,7 +13,7 @@ This source is available under MIT license. While you can use it as-is, its simp
 <br><br>
 
 ### Features
-- Simple implementation of about 400 lines using only the C++ standard library
+- Simple implementation of about 500 lines using only the C++ standard library
 - Queue container that wraps std::vector and adds blocking functionality
 - Easy debugging with a simple code structure
 - No restrictions on storage types (same as std::vector storage type restrictions)

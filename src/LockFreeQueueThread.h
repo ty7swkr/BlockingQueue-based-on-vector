@@ -63,7 +63,6 @@ public:
 
           bool start() override;
   virtual bool stop ();
-  virtual void run  () = 0;
 
 protected:
   BlockingLockFreeQueue<SIGNALED, T, Options...> waiter_; ///< Lock-Free 큐 객체.

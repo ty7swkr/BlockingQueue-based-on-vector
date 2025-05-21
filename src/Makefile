@@ -1,11 +1,11 @@
-SYS			:=	$(shell gcc -dumpmachine)
-CC			=	g++
+SYS	:=	$(shell gcc -dumpmachine)
+CC	=	g++
 
-TARGET		=	test
+TARGET	= test
 SOURCES	= MThread.cpp main.cpp \
 
 ######################################## include
-INCLUDE	+=	-I./
+INCLUDE	+= -I./
 
 ######################################## default
 LDFLAGS += -lrt -lpthread
@@ -20,8 +20,8 @@ CPPFLAGS += -O2 -std=c++11 -Wall -Wextra -Wfloat-equal -m64
 #-Wl,--gc-sections # 링커에게 사용하지 않는 섹션 제거 지시
 #CPPFLAGS += -Wl,--gc-sections -ffunction-sections -fdata-sections -s 
 
-OBJECTS	:=	$(SOURCES:.cpp=.o)
-DEPENDS	:=	$(SOURCES:.cpp=.d)
+OBJECTS	:= $(SOURCES:.cpp=.o)
+DEPENDS	:= $(SOURCES:.cpp=.d)
 
 all: $(OBJECTS)
 	rm -rf core.*
@@ -38,7 +38,7 @@ install: all
 .c.o: $(.cpp.o)
 .cpp.o:
 	$(CC) $(INCLUDE) $(CPPFLAGS) -c $< -o $@
-	
+
 %d:%cpp
 	$(CC) $(INCLUDE) $(CPPFLAGS) -MM -MP -MT "$(@:.d=.o) $@" -MF $@ $<
 

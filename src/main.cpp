@@ -45,7 +45,7 @@ public:
 
   int push(const TestData<SIZE>& data)
   {
-    return this->waiter_.backoff_push(data);
+    return this->waiter_.push(data);
   }
 
 protected:
@@ -69,7 +69,7 @@ public:
 
   bool push(const TestData<SIZE>& data)
   {
-    while (this->waiter_.backoff_push(data) > 0);
+    while (this->waiter_.push(data) != 0);
     return true;
   }
 

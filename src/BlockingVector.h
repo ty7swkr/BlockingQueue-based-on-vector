@@ -63,34 +63,17 @@ public:
   /**
    * @brief 아이템을 벡터에 추가
    * @param item 추가할 아이템
-   * @return 성공시 0, 닫혔으면 -1
+   * @return 성공시 0, 닫혔으면 -1, EAGAIN 꽉참.
    */
   int push(const T &item);
 
   /**
    * @brief 아이템을 벡터에 추가
    * @param item 추가할 아이템
-   * @return 성공시 0, 닫혔으면 -1
+   * @param remain_size 미처리된 큐개수
+   * @return 성공시 0, 닫혔으면 -1, EAGAIN 꽉참.
    */
   int push(const T &item, size_t &remain_size);
-
-
-  /**
-   * @brief 백오프 전략을 사용하여 아이템을 벡터에 추가
-   * 
-   * 벡터가 가득 찼을 경우 지정된 시간만큼 대기한 후 재시도합니다.
-   * 최대 재시도 횟수를 초과하면 EAGAIN을 반환합니다.
-   * 
-   * @tparam DURATION_TYPE 대기 시간의 타입 (기본값: std::chrono::nanoseconds)
-   * @param item 추가할 아이템
-   * @param sleep 재시도 간 대기 시간 (기본값: 10 나노초)
-   * @param max_retries 최대 재시도 횟수 (0은 무제한 재시도)
-   * @return 성공시 0, 닫혔으면 -1, 최대 재시도 초과시 EAGAIN
-   */
-  template<typename DURATION_TYPE = std::chrono::nanoseconds>
-  int backoff_push(const T              &item,
-                   const DURATION_TYPE  &sleep        = std::chrono::nanoseconds(10),
-                   const size_t         &max_retries  = 0);
 
   /**
    * @brief 벡터에서 아이템들을 꺼냄
@@ -219,34 +202,6 @@ BlockingVector<T>::push(const T &item, size_t &remain_size)
 
     container_.push_back(item);
     remain_size = container_.size();
-    return 0;
-  });
-}
-
-template<typename T>
-template<typename DURATION_TYPE> int
-BlockingVector<T>::backoff_push(const T              &item,
-                                const DURATION_TYPE  &sleep,
-                                const size_t         &max_retries)
-{
-  size_t retry_count = 0;
-  return signal_.notify_one([&](std::unique_lock<std::mutex> &lock)
-  {
-    while (container_.size() >= this->container_.capacity())
-    {
-      if (open_ == false)
-        return -1;
-
-      if (max_retries > 0)
-        if (retry_count++ >= max_retries)
-          return EAGAIN;  // 최대 재시도 횟수 초과
-
-      lock.unlock();
-      std::this_thread::sleep_for(sleep);
-      lock.lock();
-    }
-
-    container_.push_back(item);
     return 0;
   });
 }

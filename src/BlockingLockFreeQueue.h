@@ -214,11 +214,13 @@ protected:
         continue;
       }
 
+      std::this_thread::sleep_for(std::chrono::nanoseconds(10));  // 오래 걸리면 sleep
+
       // 블럭킹을 멈추기위한, 즉, 큐를 닫으면 종료되도록 하기위한 장치.
       if (queue_.empty() == true && open_.load() == false)
         return -1;
 
-      std::this_thread::sleep_for(std::chrono::nanoseconds(10));  // 오래 걸리면 sleep
+      fails = 0;
     }
 
     // 블럭킹을 멈추기위한, 즉, 큐를 닫으면 종료되도록 하기위한 장치.

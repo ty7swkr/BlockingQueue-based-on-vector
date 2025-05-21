@@ -198,6 +198,9 @@ BlockingVector<T>::push(const T &item)
     if (open_ == false)
       return -1;
 
+    if (container_.size() >= this->container_.capacity())
+      return EAGAIN;
+
     container_.push_back(item);
     return 0;
   });
@@ -210,6 +213,9 @@ BlockingVector<T>::push(const T &item, size_t &remain_size)
   {
     if (open_ == false)
       return -1;
+
+    if (container_.size() >= this->container_.capacity())
+      return EAGAIN;
 
     container_.push_back(item);
     remain_size = container_.size();
@@ -241,7 +247,6 @@ BlockingVector<T>::backoff_push(const T              &item,
     }
 
     container_.push_back(item);
-
     return 0;
   });
 }

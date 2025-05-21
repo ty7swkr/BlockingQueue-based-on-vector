@@ -167,17 +167,17 @@ int main() {
 
   std::cout << "=== Performance Test ===\n";
 
-//  runPerformanceTest<8>(testCount);
-//  runPerformanceTest<32>(testCount);
-//  runPerformanceTest<64>(testCount);
-//  runPerformanceTest<128>(testCount);
-//  runPerformanceTest<512>(testCount);
+  runPerformanceTest<8>(testCount);
+  runPerformanceTest<32>(testCount);
+  runPerformanceTest<64>(testCount);
+  runPerformanceTest<128>(testCount);
+  runPerformanceTest<512>(testCount);
   runPerformanceTest<1024>(testCount);
   runPerformanceTest<2048>(testCount);
   runPerformanceTest<4096>(testCount);
   runPerformanceTest<8192>(testCount);
-//  runPerformanceTest<10 * 1024>(testCount);
-//  runPerformanceTest<20 * 1024>(testCount);
+  runPerformanceTest<10 * 1024>(testCount);
+  runPerformanceTest<20 * 1024>(testCount);
 
   return 0;
 }

@@ -1,7 +1,7 @@
 *Read this in other languages: [한국어](README.ko.md)*
 
 # BlockingVector Queue
-A Producer-Consumer Pattern queue implemented based on std::vector. It shows faster performance than boost::lockfree::queue, which you can verify in the benchmark results below. It only uses the C++ standard library, with a simple codebase (signal+blockingvector is about 500 lines, excluding thread code).
+A Producer-Consumer Pattern queue implemented based on std::vector. It shows faster performance than boost::lockfree::queue, which you can verify in the benchmark results below. It only uses the c++ 11 standard library, with a simple codebase (signal+blockingvector is about 500 lines, excluding thread code).
 <br><br>
 Since lockfree-queue uses CAS-based competition, it may not always be the optimal choice. This implementation can serve as an alternative for producer-consumer patterns. When choosing an implementation, consider trade-offs between performance, debugging ease, implementation complexity, dependencies, and constraints for your specific project needs.
 <br><br>

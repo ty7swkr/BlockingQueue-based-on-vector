@@ -131,7 +131,7 @@ BlockingVector<T>::BlockingVector(const size_t &reserve_size, const bool &open)
 template<typename T> void
 BlockingVector<T>::open()
 {
-  auto lock = signal_.scoped_acquire_lock();
+  auto lock_guard = signal_.scoped_acquire_lock();
   open_ = true;
 }
 
@@ -176,34 +176,34 @@ BlockingVector<T>::reserve_size() const
 template<typename T> int
 BlockingVector<T>::push(const T &item)
 {
-  return signal_.notify_one([&]()
-  {
-    if (open_ == false)
-      return -1;
+  auto lock_guard = signal_.scoped_acquire_lock();
+  if (open_ == false)
+    return -1;
 
-    if (container_.size() >= this->container_.capacity())
-      return EAGAIN;
+  if (container_.size() >= this->container_.capacity())
+    return EAGAIN;
 
-    container_.push_back(item);
-    return 0;
-  });
+  container_.push_back(item);
+
+  signal_.notify_one(lock_guard);
+  return 0;
 }
 
 template<typename T> int
 BlockingVector<T>::push(const T &item, size_t &remain_size)
 {
-  return signal_.notify_one([&]()
-  {
-    if (open_ == false)
-      return -1;
+  auto lock_guard = signal_.scoped_acquire_lock();
+  if (open_ == false)
+    return -1;
 
-    if (container_.size() >= this->container_.capacity())
-      return EAGAIN;
+  if (container_.size() >= this->container_.capacity())
+    return EAGAIN;
 
-    container_.push_back(item);
-    remain_size = container_.size();
-    return 0;
-  });
+  container_.push_back(item);
+  remain_size = container_.size();
+
+  signal_.notify_one(lock_guard);
+  return 0;
 }
 
 template<typename T> int

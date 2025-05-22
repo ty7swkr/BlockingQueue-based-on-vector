@@ -150,7 +150,7 @@ This source is available under MIT license. While you can use it as-is, its simp
     </tbody>
 </table>
 
-#### AMD 7945HX / 32G / Linux Mint 21.3(Ubuntu 22.04), Last updated 05.23.2024
+#### AMD 7945HX / 32G / Linux Mint 21.3(Ubuntu 22.04), Last updated 05.23.2025
 <table style="width: 100%; border-collapse: collapse;">
     <thead>
         <tr>

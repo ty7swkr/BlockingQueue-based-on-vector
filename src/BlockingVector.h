@@ -45,8 +45,9 @@ public:
   /**
    * @brief 벡터의 용량 예약
    * @param size 예약할 용량
+   * @return 실제 예약된 용량
    */
-  void reserve(size_t size);
+  size_t reserve(size_t size);
 
   /**
    * @brief 벡터의 용량 확인
@@ -117,7 +118,7 @@ protected:
    * @brief 내부 데이터 저장 컨테이너
    */
   std::vector<T> container_;
-  
+
   /**
    * @brief 벡터의 예약 크기
    */
@@ -151,12 +152,13 @@ BlockingVector<T>::is_open() const
   return open_;
 }
 
-template<typename T> void
+template<typename T> size_t
 BlockingVector<T>::reserve(size_t size)
 {
   auto lock_guard = signal_.scoped_acquire_lock();
-  reserve_size_ = size;
   container_.reserve(size);
+  reserve_size_ = container_.capacity();
+  return reserve_size_;
 }
 
 template<typename T> size_t

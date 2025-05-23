@@ -25,7 +25,7 @@ public:
    * @brief 스레드 시작
    * @return 성공시 true, 실패시 false
    */
-          bool start() override;
+  bool start() override;
 
   /**
    * @brief 스레드 종료
@@ -37,7 +37,7 @@ public:
    * @brief 벡터의 예약 크기 설정
    * @param size 예약할 크기
    */
-  void    reserve(size_t size) { waiter_.reserve(size); }
+  void reserve(size_t size) { waiter_.reserve(size); }
 
 protected:
   BlockingVector<T> waiter_;

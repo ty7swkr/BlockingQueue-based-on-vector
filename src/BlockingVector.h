@@ -106,7 +106,7 @@ protected:
    * @brief 벡터의 열림/닫힘 상태
    * true: 열림 상태, false: 닫힘 상태
    */
-  bool            open_ = true;
+  bool open_ = true;
   
   /**
    * @brief 동기화를 위한 신호 객체
@@ -116,12 +116,12 @@ protected:
   /**
    * @brief 내부 데이터 저장 컨테이너
    */
-  std::vector<T>  container_;
+  std::vector<T> container_;
   
   /**
    * @brief 벡터의 예약 크기
    */
-  size_t          reserve_size_ = 10000;
+  size_t reserve_size_ = 10000;
 };
 
 template<typename T>

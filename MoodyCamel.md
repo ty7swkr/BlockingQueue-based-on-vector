@@ -1,3 +1,4 @@
+#### AMD 7945HX / 32G / Linux Mint 21.3(Ubuntu 22.04)
 <table style="width: 100%; border-collapse: collapse;">
 <thead>
 <tr>
@@ -7,14 +8,14 @@
 <th colspan="2" style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">% Faster (vs BoostLockFree)</th>
 </tr>
 <tr>
-<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">BoostLockFree</th>
-<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">MoodyCamel</th>
-<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">BlockingVector</th>
-<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">BoostLockFree</th>
-<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">MoodyCamel</th>
-<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">BlockingVector</th>
-<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">MoodyCamel</th>
-<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">BlockingVector</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Boost<br>LockFree</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Moody<br>Camel</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Blocking<br>Vector</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Boost<br>LockFree</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Moody<br>Camel</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Blocking<br>Vector</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Moody<br>Camel</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Blocking<br>Vector</th>
 </tr>
 </thead>
 <tbody>

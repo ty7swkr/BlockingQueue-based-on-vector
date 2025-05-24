@@ -8,7 +8,7 @@ Since lockfree-queue uses CAS-based competition, it may not always be the optima
 This source is available under MIT license. While you can use it as-is, its simple implementation allows you to adapt it to better suit your project's requirements.
 <br><br>
 
-### Related Links
+### Related Link
 <a href="https://cplusplus.tistory.com/entry/C-Lockfree-Queue%EA%B0%80-%ED%95%AD%EC%83%81-%EC%A2%8B%EC%9D%80-%EC%84%A0%ED%83%9D%EC%9D%BC%EA%B9%8C" target="_blank">Is Lock-free Queue Always the Best Choice?</a>
 <br><br>
 

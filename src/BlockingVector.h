@@ -85,12 +85,6 @@ public:
   int pop(std::vector<T> &items, const uint32_t &tmout_msec = 0);
 
   /**
-   * @brief 제공된 벡터와 내용을 교체
-   * @param items 교체할 벡터
-   */
-  void swap(std::vector<T> &items);
-
-  /**
    * @brief 현재 크기 반환
    * @return 벡터 내 아이템 개수
    */
@@ -221,6 +215,7 @@ BlockingVector<T>::pop(std::vector<T> &items, const uint32_t &tmout_msec)
     if (container_.size() > 0)
     {
       container_.swap(items);
+      reserve_size_ = container_.capacity();
       return 0;
     }
 
@@ -230,13 +225,6 @@ BlockingVector<T>::pop(std::vector<T> &items, const uint32_t &tmout_msec)
     if (signal_.wait(lock_guard, tmout_msec) == false)
       return ETIMEDOUT;
   }
-}
-
-template<typename T> void
-BlockingVector<T>::swap(std::vector<T> &items)
-{
-  auto lock_guard = signal_.scoped_acquire_lock();
-  container_.swap(items);
 }
 
 template<typename T> size_t

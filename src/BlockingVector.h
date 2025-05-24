@@ -68,6 +68,9 @@ public:
    */
   int push(const T &item);
 
+  // move 버전 추가
+  int push(T &&item);
+
   /**
    * @brief 아이템을 벡터에 추가
    * @param item 추가할 아이템
@@ -180,6 +183,23 @@ BlockingVector<T>::push(const T &item)
     return EAGAIN;
 
   container_.push_back(item);
+
+  signal_.notify_one(lock_guard);
+  return 0;
+}
+
+// move 버전 추가
+template<typename T> int
+BlockingVector<T>::push(T &&item)
+{
+  auto lock_guard = signal_.scoped_acquire_lock();
+  if (open_ == false)
+    return -1;
+
+  if (container_.size() >= this->container_.capacity())
+    return EAGAIN;
+
+  container_.emplace_back(std::forward<T>(item));
 
   signal_.notify_one(lock_guard);
   return 0;

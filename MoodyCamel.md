@@ -142,3 +142,148 @@
 </tr>
 </tbody>
 </table>
+<br>
+#### AMD 8845HS / 16G / Linux Mint 22.1(Ubuntu 24.04)
+<table style="width: 100%; border-collapse: collapse;">
+<thead>
+<tr>
+<th rowspan="2" style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Block Size</th>
+<th colspan="3" style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Execution Time (seconds)</th>
+<th colspan="3" style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Throughput (ops/sec)</th>
+<th colspan="2" style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">% Faster (vs BoostLockFree)</th>
+</tr>
+<tr>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Boost<br>LockFree</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Moody<br>Camel</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Blocking<br>Vector</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Boost<br>LockFree</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Moody<br>Camel</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Blocking<br>Vector</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Moody<br>Camel</th>
+<th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">Blocking<br>Vector</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border: 1px solid #ddd; padding: 8px;">8 bytes</td>
+<td style="border: 1px solid #ddd; padding: 8px;">1.304</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.206</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.185</td>
+<td style="border: 1px solid #ddd; padding: 8px;">7,670,029</td>
+<td style="border: 1px solid #ddd; padding: 8px;">48,560,732</td>
+<td style="border: 1px solid #ddd; padding: 8px;">54,083,311</td>
+<td style="border: 1px solid #ddd; padding: 8px;">533.12%</td>
+<td style="border: 1px solid #ddd; padding: 8px;">605.13%</td>
+</tr>
+<tr>
+<td style="border: 1px solid #ddd; padding: 8px;">16 bytes</td>
+<td style="border: 1px solid #ddd; padding: 8px;">1.296</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.224</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.200</td>
+<td style="border: 1px solid #ddd; padding: 8px;">7,713,411</td>
+<td style="border: 1px solid #ddd; padding: 8px;">44,732,532</td>
+<td style="border: 1px solid #ddd; padding: 8px;">50,094,061</td>
+<td style="border: 1px solid #ddd; padding: 8px;">479.93%</td>
+<td style="border: 1px solid #ddd; padding: 8px;">549.44%</td>
+</tr>
+<tr>
+<td style="border: 1px solid #ddd; padding: 8px;">32 bytes</td>
+<td style="border: 1px solid #ddd; padding: 8px;">1.249</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.281</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.195</td>
+<td style="border: 1px solid #ddd; padding: 8px;">8,005,829</td>
+<td style="border: 1px solid #ddd; padding: 8px;">35,556,286</td>
+<td style="border: 1px solid #ddd; padding: 8px;">51,242,620</td>
+<td style="border: 1px solid #ddd; padding: 8px;">344.13%</td>
+<td style="border: 1px solid #ddd; padding: 8px;">540.07%</td>
+</tr>
+<tr>
+<td style="border: 1px solid #ddd; padding: 8px;">64 bytes</td>
+<td style="border: 1px solid #ddd; padding: 8px;">1.297</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.398</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.199</td>
+<td style="border: 1px solid #ddd; padding: 8px;">7,707,538</td>
+<td style="border: 1px solid #ddd; padding: 8px;">25,096,137</td>
+<td style="border: 1px solid #ddd; padding: 8px;">50,199,081</td>
+<td style="border: 1px solid #ddd; padding: 8px;">225.61%</td>
+<td style="border: 1px solid #ddd; padding: 8px;">551.30%</td>
+</tr>
+<tr>
+<td style="border: 1px solid #ddd; padding: 8px;">128 bytes</td>
+<td style="border: 1px solid #ddd; padding: 8px;">1.277</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.621</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.182</td>
+<td style="border: 1px solid #ddd; padding: 8px;">7,831,406</td>
+<td style="border: 1px solid #ddd; padding: 8px;">16,094,598</td>
+<td style="border: 1px solid #ddd; padding: 8px;">54,890,857</td>
+<td style="border: 1px solid #ddd; padding: 8px;">105.51%</td>
+<td style="border: 1px solid #ddd; padding: 8px;">600.91%</td>
+</tr>
+<tr>
+<td style="border: 1px solid #ddd; padding: 8px;">512 bytes</td>
+<td style="border: 1px solid #ddd; padding: 8px;">1.512</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.840</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.514</td>
+<td style="border: 1px solid #ddd; padding: 8px;">6,614,812</td>
+<td style="border: 1px solid #ddd; padding: 8px;">11,899,474</td>
+<td style="border: 1px solid #ddd; padding: 8px;">19,442,277</td>
+<td style="border: 1px solid #ddd; padding: 8px;">79.89%</td>
+<td style="border: 1px solid #ddd; padding: 8px;">193.92%</td>
+</tr>
+<tr>
+<td style="border: 1px solid #ddd; padding: 8px;">1024 bytes</td>
+<td style="border: 1px solid #ddd; padding: 8px;">1.654</td>
+<td style="border: 1px solid #ddd; padding: 8px;">1.532</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.600</td>
+<td style="border: 1px solid #ddd; padding: 8px;">6,045,017</td>
+<td style="border: 1px solid #ddd; padding: 8px;">6,527,163</td>
+<td style="border: 1px solid #ddd; padding: 8px;">16,661,796</td>
+<td style="border: 1px solid #ddd; padding: 8px;">7.98%</td>
+<td style="border: 1px solid #ddd; padding: 8px;">175.63%</td>
+</tr>
+<tr>
+<td style="border: 1px solid #ddd; padding: 8px;">2048 bytes</td>
+<td style="border: 1px solid #ddd; padding: 8px;">2.358</td>
+<td style="border: 1px solid #ddd; padding: 8px;">2.404</td>
+<td style="border: 1px solid #ddd; padding: 8px;">0.758</td>
+<td style="border: 1px solid #ddd; padding: 8px;">4,240,270</td>
+<td style="border: 1px solid #ddd; padding: 8px;">4,159,582</td>
+<td style="border: 1px solid #ddd; padding: 8px;">13,185,969</td>
+<td style="border: 1px solid #ddd; padding: 8px;">-1.90%</td>
+<td style="border: 1px solid #ddd; padding: 8px;">210.97%</td>
+</tr>
+<tr>
+<td style="border: 1px solid #ddd; padding: 8px;">4096 bytes</td>
+<td style="border: 1px solid #ddd; padding: 8px;">5.366</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3.631</td>
+<td style="border: 1px solid #ddd; padding: 8px;">1.037</td>
+<td style="border: 1px solid #ddd; padding: 8px;">1,863,542</td>
+<td style="border: 1px solid #ddd; padding: 8px;">2,754,200</td>
+<td style="border: 1px solid #ddd; padding: 8px;">9,640,382</td>
+<td style="border: 1px solid #ddd; padding: 8px;">47.79%</td>
+<td style="border: 1px solid #ddd; padding: 8px;">417.31%</td>
+</tr>
+<tr>
+<td style="border: 1px solid #ddd; padding: 8px;">8192 bytes</td>
+<td style="border: 1px solid #ddd; padding: 8px;">10.526</td>
+<td style="border: 1px solid #ddd; padding: 8px;">4.993</td>
+<td style="border: 1px solid #ddd; padding: 8px;">1.571</td>
+<td style="border: 1px solid #ddd; padding: 8px;">949,992</td>
+<td style="border: 1px solid #ddd; padding: 8px;">2,002,890</td>
+<td style="border: 1px solid #ddd; padding: 8px;">6,364,319</td>
+<td style="border: 1px solid #ddd; padding: 8px;">110.83%</td>
+<td style="border: 1px solid #ddd; padding: 8px;">569.93%</td>
+</tr>
+<tr>
+<td style="border: 1px solid #ddd; padding: 8px;">10240 bytes</td>
+<td style="border: 1px solid #ddd; padding: 8px;">13.984</td>
+<td style="border: 1px solid #ddd; padding: 8px;">2.790</td>
+<td style="border: 1px solid #ddd; padding: 8px;">1.818</td>
+<td style="border: 1px solid #ddd; padding: 8px;">715,096</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3,584,174</td>
+<td style="border: 1px solid #ddd; padding: 8px;">5,500,784</td>
+<td style="border: 1px solid #ddd; padding: 8px;">401.22%</td>
+<td style="border: 1px solid #ddd; padding: 8px;">669.24%</td>
+</tr>
+</tbody>
+</table>

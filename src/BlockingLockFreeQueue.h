@@ -8,14 +8,14 @@
  * @brief 블로킹 락프리 큐 클래스
  * 
  * 두 가지 대기 방식을 지원하는 스레드 안전한 락프리 큐입니다:
- * - USE_CONDITION_VARIABLE = true  : C++ 시그널 기반 대기 (대기 시 CPU 점유율 0, 처리속도 느림)
- * - USE_CONDITION_VARIABLE = false : 락프리 큐의 스핀 기반 대기 (대기 시 CPU 점유율 ~10%, 처리속도 빠름)
+ * - SIGNAL_BASED = true  : C++ 시그널 기반 대기 (대기 시 CPU 점유율 0, 처리속도 느림)
+ * - SIGNAL_BASED = false : 락프리 큐의 스핀 기반 대기 (대기 시 CPU 점유율 ~10%, 처리속도 빠름)
  * 
- * @tparam USE_CONDITION_VARIABLE 시그널 기반 대기 사용 여부
+ * @tparam SIGNAL_BASED 시그널 기반 대기 사용 여부
  * @tparam T 저장할 데이터 타입
  * @tparam Options boost::lockfree::queue에 전달할 추가 옵션들
  */
-template<bool USE_CONDITION_VARIABLE, typename T, typename... Options>
+template<bool SIGNAL_BASED, typename T, typename... Options>
 class BlockingLockFreeQueue
 {
 public:
@@ -36,7 +36,7 @@ public:
    * @brief 시그널 기반 대기 모드 사용 여부 확인
    * @return 시그널 기반이면 true, 스핀 기반이면 false
    */
-  bool use_condition_variable() const { return USE_CONDITION_VARIABLE; }
+  bool is_signal_based() const { return SIGNAL_BASED; }
 
   /**
    * @brief 큐를 열어서 작업 가능하게 함
@@ -54,7 +54,7 @@ public:
   void close()
   {
     open_ = false;
-    if (USE_CONDITION_VARIABLE == true)
+    if (SIGNAL_BASED == true)
       signal_.notify_one();
   }
 
@@ -72,7 +72,7 @@ public:
     if (queue_.push(item) == false)
       return EAGAIN;
 
-    if (USE_CONDITION_VARIABLE == true)
+    if (SIGNAL_BASED == true)
       if (queue_.empty() == false)
         signal_.notify_one();
 
@@ -115,7 +115,7 @@ public:
   /**
    * @brief 큐에서 아이템을 꺼냄
    * 
-   * USE_CONDITION_VARIABLE 템플릿 파라미터에 따라 signaled_pop 또는 adaptive_pop을 호출합니다.
+   * SIGNAL_BASED 템플릿 파라미터에 따라 signaled_pop 또는 adaptive_pop을 호출합니다.
    * condition variable의 특성상 발생할 수 있는 "lost wakeup" 또는 "missed notification" 문제는
    * MSignal 클래스에서 처리되므로 상관이 없습니다.
    * 
@@ -124,8 +124,8 @@ public:
    */
   int pop(T &item)
   {
-    if (USE_CONDITION_VARIABLE == true)
-      return signaled_pop(item);
+    if (SIGNAL_BASED == true)
+      return signal_based_pop(item);
 
     // ADAPTIVE SPIN처리
     return adaptive_pop(item);
@@ -176,7 +176,7 @@ protected:
    * @param[out] item 꺼낸 아이템을 저장할 변수
    * @return 성공시 0, 큐가 닫혔으면 -1
    */
-  int signaled_pop(T &item)
+  int signal_based_pop(T &item)
   {
     while (true)
     {

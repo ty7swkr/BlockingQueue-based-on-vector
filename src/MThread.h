@@ -72,7 +72,7 @@ MThread::~MThread()
 inline bool
 MThread::is_run() const
 {
-  auto lock = run_signal_.scoped_acquire_lock();
+  auto lock = run_signal_.acquire_scoped_lock();
   return run_;
 }
 

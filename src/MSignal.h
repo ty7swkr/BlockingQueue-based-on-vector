@@ -79,7 +79,7 @@ public:
   }
 
   std::unique_lock<std::mutex>
-       scoped_acquire_lock() const
+       acquire_scoped_lock() const
   {
     return std::unique_lock<std::mutex>(this->lock_);
   }

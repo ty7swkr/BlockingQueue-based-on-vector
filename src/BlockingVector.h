@@ -129,7 +129,7 @@ BlockingVector<T>::BlockingVector(const size_t &reserve_size, const bool &open)
 template<typename T> void
 BlockingVector<T>::open()
 {
-  auto lock_guard = signal_.scoped_acquire_lock();
+  auto lock_guard = signal_.acquire_scoped_lock();
   open_ = true;
 }
 
@@ -145,14 +145,14 @@ BlockingVector<T>::close()
 template<typename T> bool
 BlockingVector<T>::is_open() const
 {
-  auto lock_guard = signal_.scoped_acquire_lock();
+  auto lock_guard = signal_.acquire_scoped_lock();
   return open_;
 }
 
 template<typename T> size_t
 BlockingVector<T>::reserve(size_t size)
 {
-  auto lock_guard = signal_.scoped_acquire_lock();
+  auto lock_guard = signal_.acquire_scoped_lock();
   container_.reserve(size);
   reserve_size_ = container_.capacity();
   return reserve_size_;
@@ -161,21 +161,21 @@ BlockingVector<T>::reserve(size_t size)
 template<typename T> size_t
 BlockingVector<T>::capacity() const
 {
-  auto lock_guard = signal_.scoped_acquire_lock();
+  auto lock_guard = signal_.acquire_scoped_lock();
   return container_.capacity();
 }
 
 template<typename T> size_t
 BlockingVector<T>::reserve_size() const
 {
-  auto lock_guard = signal_.scoped_acquire_lock();
+  auto lock_guard = signal_.acquire_scoped_lock();
   return reserve_size_;
 }
 
 template<typename T> int
 BlockingVector<T>::push(const T &item)
 {
-  auto lock_guard = signal_.scoped_acquire_lock();
+  auto lock_guard = signal_.acquire_scoped_lock();
   if (open_ == false)
     return -1;
 
@@ -192,7 +192,7 @@ BlockingVector<T>::push(const T &item)
 template<typename T> int
 BlockingVector<T>::push(T &&item)
 {
-  auto lock_guard = signal_.scoped_acquire_lock();
+  auto lock_guard = signal_.acquire_scoped_lock();
   if (open_ == false)
     return -1;
 
@@ -208,7 +208,7 @@ BlockingVector<T>::push(T &&item)
 template<typename T> int
 BlockingVector<T>::push(const T &item, size_t &remain_size)
 {
-  auto lock_guard = signal_.scoped_acquire_lock();
+  auto lock_guard = signal_.acquire_scoped_lock();
   if (open_ == false)
     return -1;
 
@@ -231,7 +231,7 @@ BlockingVector<T>::pop(std::vector<T> &items, const uint32_t &tmout_msec)
 
   while (true)
   {
-    auto lock_guard = signal_.scoped_acquire_lock();
+    auto lock_guard = signal_.acquire_scoped_lock();
     if (container_.size() > 0)
     {
       container_.swap(items);
@@ -250,13 +250,13 @@ BlockingVector<T>::pop(std::vector<T> &items, const uint32_t &tmout_msec)
 template<typename T> size_t
 BlockingVector<T>::size() const
 {
-  auto lock_guard = signal_.scoped_acquire_lock();
+  auto lock_guard = signal_.acquire_scoped_lock();
   return container_.size();
 }
 
 template<typename T> std::vector<T>
 BlockingVector<T>::container() const
 {
-  auto lock_guard = signal_.scoped_acquire_lock();
+  auto lock_guard = signal_.acquire_scoped_lock();
   return container_;
 }

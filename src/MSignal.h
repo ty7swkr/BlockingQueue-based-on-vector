@@ -17,6 +17,37 @@
 //                   동시에 여러 wait condition이 깨어나는 현상을 뜻합니다.
 //                   이는 OS의 성능 이슈이기 때문에 개발자 영역으로 남겨져 있습니다.
 //
+//  1. 기본 notify_one
+//  signal.notify_one() // 대기하는 signal을 깨웁니다.
+//
+//  2. 기본 람다 notify_one - 리턴값 없음
+//  signal.notify_one([&]() { shared_data = "new data"; });
+//
+//  3. lock을 받는 notify_one - 리턴값 없음
+//  signal.notify_one([&](std::unique_lock<std::mutex> &lock)
+//  {
+//      shared_data = "new data";
+//      lock.unlock();
+//      do_something_else();
+//      lock.lock();
+//  });
+//
+//  4. 리턴값이 있는 notify_one, 리턴값 타입은 마음대로 지정 가능
+//  bool success = signal.notify_one([&]() -> bool
+//  {
+//      shared_data = "new data";
+//      return true;
+//  });
+//
+//  5. lock을 받고 리턴값도 있는 notify_one
+//  std::string result = signal.notify_one([&](std::unique_lock<std::mutex> &lock) -> std::string
+//  {
+//      shared_data = "new data";
+//      lock.unlock();
+//      do_something_else();
+//      lock.lock();
+//      return "completed";
+//  });
 
 class MSignal
 {
@@ -87,7 +118,8 @@ public:
   void notify_one(std::unique_lock<std::mutex> &lock_guard)
   {
     notify_one_nolock();
-    lock_guard.unlock();
+    if (lock_guard.owns_lock() == true)
+      lock_guard.unlock();
   }
 
   // 1:1 에서는 시그널을 놓치지 않도록 구현되어 있음.
@@ -233,9 +265,4 @@ MSignal::wait(std::unique_lock<std::mutex> &lock, uint32_t tmout_msec)
   std::chrono::milliseconds timeout(tmout_msec);
   return cond_.wait_for(lock, timeout, pred);
 }
-
-
-
-
-
 

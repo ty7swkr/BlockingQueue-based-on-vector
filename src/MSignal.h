@@ -228,6 +228,11 @@ MSignal::wait(std::unique_lock<std::mutex> &guard, uint32_t tmout_msec)
     signal_guard = std::unique_lock<std::mutex>(lock_);
     actual_guard = &signal_guard;
   }
+  else
+  {
+    if (guard.owns_lock() == false)
+      guard.lock();
+  }
 
   if (tmout_msec == 0)
   {

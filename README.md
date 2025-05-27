@@ -52,10 +52,10 @@ This source is available under MIT license. While you can use it as-is, its simp
             <th rowspan="2" style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">% Faster</th>
         </tr>
         <tr>
-            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">Boost<br>LockFree Queue</th>
-            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">Blocking Vector</th>
-            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">Boost<br>LockFree Queue</th>
-            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">Blocking Vector</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">BoostLockFree</th>
+            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">BlockingVector</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">BoostLockFree</th>
+            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">BlockingVector</th>
         </tr>
     </thead>
     <tbody>
@@ -160,10 +160,10 @@ This source is available under MIT license. While you can use it as-is, its simp
             <th rowspan="2" style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">% Faster</th>
         </tr>
         <tr>
-            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">LockFree Queue</th>
-            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">Blocking Vector</th>
-            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">LockFree Queue</th>
-            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">Blocking Vector</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">BoostLockFree</th>
+            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">BlockingVector</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">BoostLockFree</th>
+            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">BlockingVector</th>
         </tr>
     </thead>
     <tbody>

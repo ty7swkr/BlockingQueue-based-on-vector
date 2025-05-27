@@ -128,6 +128,7 @@ public:
 
     if (guard.owns_lock() == false)
       guard.lock();
+
     notify_one_nolock();
   }
 

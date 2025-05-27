@@ -4,6 +4,7 @@
 #include <condition_variable>
 #include <chrono>
 #include <functional>
+#include <cassert>
 
 // 시그널을 놓치는 문제와 가짜깨움이 발생하지 않도록 구현되어 있음.
 //
@@ -24,12 +25,12 @@
 //  signal.notify_one([&]() { shared_data = "new data"; });
 //
 //  3. lock을 받는 notify_one - 리턴값 없음
-//  signal.notify_one([&](std::unique_lock<std::mutex> &lock)
+//  signal.notify_one([&](std::unique_lock<std::mutex> &guard)
 //  {
 //      shared_data = "new data";
-//      lock.unlock();
+//      guard.unlock();
 //      do_something_else();
-//      lock.lock();
+//      guard.lock();
 //  });
 //
 //  4. 리턴값이 있는 notify_one, 리턴값 타입은 마음대로 지정 가능
@@ -40,12 +41,12 @@
 //  });
 //
 //  5. lock을 받고 리턴값도 있는 notify_one
-//  std::string result = signal.notify_one([&](std::unique_lock<std::mutex> &lock) -> std::string
+//  std::string result = signal.notify_one([&](std::unique_lock<std::mutex> &guard) -> std::string
 //  {
 //      shared_data = "new data";
-//      lock.unlock();
+//      guard.unlock();
 //      do_something_else();
-//      lock.lock();
+//      guard.lock();
 //      return "completed";
 //  });
 
@@ -57,7 +58,7 @@ public:
 
   void notify_one()
   {
-    std::lock_guard<std::mutex> lock(lock_);
+    std::lock_guard<std::mutex> guard(lock_);
     notify_one_nolock();
   }
 
@@ -66,7 +67,7 @@ public:
            typename = typename std::enable_if<!std::is_void<decltype(std::declval<F>()())>::value>::type>
   auto notify_one(F &&func) -> decltype(std::declval<F>()())
   {
-      std::lock_guard<std::mutex> lock(lock_);
+      std::lock_guard<std::mutex> guard(lock_);
       auto result = std::forward<F>(func)();
       notify_one_nolock();
       return result;
@@ -78,7 +79,7 @@ public:
            typename = void>
   void notify_one(F &&func)
   {
-      std::lock_guard<std::mutex> lock(lock_);
+      std::lock_guard<std::mutex> guard(lock_);
       std::forward<F>(func)();
       notify_one_nolock();
   }
@@ -90,8 +91,8 @@ public:
            typename = void>
   auto notify_one(F &&func) -> decltype(std::declval<F>()(std::declval<std::unique_lock<std::mutex>&>()))
   {
-      std::unique_lock<std::mutex> lock(lock_);
-      auto result = std::forward<F>(func)(lock);
+      std::unique_lock<std::mutex> guard(lock_);
+      auto result = std::forward<F>(func)(guard);
       notify_one_nolock();
       return result;
   }
@@ -104,8 +105,8 @@ public:
            typename = void>
   void notify_one(F &&func)
   {
-      std::unique_lock<std::mutex> lock(lock_);
-      std::forward<F>(func)(lock);
+      std::unique_lock<std::mutex> guard(lock_);
+      std::forward<F>(func)(guard);
       notify_one_nolock();
   }
 
@@ -115,11 +116,19 @@ public:
     return std::unique_lock<std::mutex>(this->lock_);
   }
 
-  void notify_one(std::unique_lock<std::mutex> &lock_guard)
+  void notify_one(std::unique_lock<std::mutex> &guard)
   {
+    if (guard.mutex() != &lock_)
+    {
+      assert(false && "Wrong mutex passed to notify_one");
+      std::unique_lock<std::mutex> signal_guard(lock_);
+      notify_one_nolock();
+      return;
+    }
+
+    if (guard.owns_lock() == false)
+      guard.lock();
     notify_one_nolock();
-    if (lock_guard.owns_lock() == true)
-      lock_guard.unlock();
   }
 
   // 1:1 에서는 시그널을 놓치지 않도록 구현되어 있음.
@@ -135,18 +144,18 @@ public:
   // MSignal을 그룹핑하여 사용하는 방법이 있음.
 
   // false : timeout, true : wakeup
-  bool wait(uint32_t tmout_msec = 0);
+  bool wait(uint32_t tmout_msec = 0) { return this->wait(tmout_msec, nullptr); }
 
   // func가 true를 리턴하면 wait가 즉시 깨어남
   // 대기전 락을 걸고 func호출 false이면 대기->깨어났을때 다시 func호출->이때 fale이면 다시 대기...
-  void wait(std::function<bool()> func);
+  void wait(std::function<bool()> func) { this->wait(0, func); }
 
   // false : timeout, true : wakeup
   bool wait(uint32_t tmout_msec, std::function<bool()> func);
 
   // lock은 자동 언락됨. 이때 lock는 scoped_acquire_lock의 락을 사용해야함.
   // false : timeout, true : wakeup
-  bool wait(std::unique_lock<std::mutex> &lock, uint32_t tmout_msec = 0);
+  bool wait(std::unique_lock<std::mutex> &guard, uint32_t tmout_msec = 0);
 
 protected:
   void notify_one_nolock()
@@ -163,30 +172,6 @@ private:
   std::condition_variable cond_;
   bool                    signaled_ = false;
 };
-
-inline bool
-MSignal::wait(uint32_t tmout_msec)
-{
-  std::function<bool()> pred = [&]()
-  {
-    if (signaled_ == true)
-    {
-      signaled_ = false;
-      return true;
-    }
-    return false;
-  };
-
-  std::unique_lock<std::mutex> lock(lock_);
-  if (tmout_msec == 0)
-  {
-    cond_.wait(lock, pred);
-    return true;
-  }
-
-  std::chrono::milliseconds timeout(tmout_msec);
-  return cond_.wait_for(lock, timeout, pred);
-}
 
 inline bool
 MSignal::wait(uint32_t tmout_msec, std::function<bool()> func)
@@ -208,43 +193,19 @@ MSignal::wait(uint32_t tmout_msec, std::function<bool()> func)
     return signaled;
   };
 
-  std::unique_lock<std::mutex> lock(lock_);
+  std::unique_lock<std::mutex> guard(lock_);
   if (tmout_msec == 0)
   {
-    cond_.wait(lock, pred);
+    cond_.wait(guard, pred);
     return true;
   }
 
   std::chrono::milliseconds timeout(tmout_msec);
-  return cond_.wait_for(lock, timeout, pred);
-}
-
-inline void
-MSignal::wait(std::function<bool()> func)
-{
-  size_t count = 0;
-  std::function<bool()> pred = [&]()
-  {
-    const bool signaled = signaled_;
-
-    if (signaled_ == true)
-      signaled_ = false;
-
-    if (func != nullptr)
-    {
-      if (count++  == 0   ) return func(); // 최초.
-      if (signaled == true) return func();
-    }
-
-    return signaled;
-  };
-
-  std::unique_lock<std::mutex> lock(lock_);
-  cond_.wait(lock, pred);
+  return cond_.wait_for(guard, timeout, pred);
 }
 
 inline bool
-MSignal::wait(std::unique_lock<std::mutex> &lock, uint32_t tmout_msec)
+MSignal::wait(std::unique_lock<std::mutex> &guard, uint32_t tmout_msec)
 {
   std::function<bool()> pred = [&]()
   {
@@ -253,16 +214,28 @@ MSignal::wait(std::unique_lock<std::mutex> &lock, uint32_t tmout_msec)
       signaled_ = false;
       return true;
     }
+
     return false;
   };
 
+  std::unique_lock<std::mutex> *actual_guard = &guard;
+  std::unique_lock<std::mutex>  signal_guard;
+
+  if (guard.mutex() != &lock_)
+  {
+    assert(false && "Wrong mutex passed to wait");
+    signal_guard = std::unique_lock<std::mutex>(lock_);
+    actual_guard = &signal_guard;
+  }
+
   if (tmout_msec == 0)
   {
-    cond_.wait(lock, pred);
+    cond_.wait(*actual_guard, pred);
     return true;
   }
 
   std::chrono::milliseconds timeout(tmout_msec);
-  return cond_.wait_for(lock, timeout, pred);
+  return cond_.wait_for(*actual_guard, timeout, pred);
 }
+
 

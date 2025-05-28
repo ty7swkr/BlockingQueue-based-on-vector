@@ -67,10 +67,10 @@ public:
            typename = typename std::enable_if<!std::is_void<decltype(std::declval<F>()())>::value>::type>
   auto notify_one(F &&func) -> decltype(std::declval<F>()())
   {
-      std::lock_guard<std::mutex> guard(lock_);
-      auto result = std::forward<F>(func)();
-      notify_one_nolock();
-      return result;
+    std::lock_guard<std::mutex> guard(lock_);
+    auto result = std::forward<F>(func)();
+    notify_one_nolock();
+    return result;
   }
 
   // void 리턴 특수화 - 인자가 없는 람다
@@ -79,9 +79,9 @@ public:
            typename = void>
   void notify_one(F &&func)
   {
-      std::lock_guard<std::mutex> guard(lock_);
-      std::forward<F>(func)();
-      notify_one_nolock();
+    std::lock_guard<std::mutex> guard(lock_);
+    std::forward<F>(func)();
+    notify_one_nolock();
   }
 
   // unique_lock을 인자로 받는 람다 특수화, non-void 리턴
@@ -91,10 +91,10 @@ public:
            typename = void>
   auto notify_one(F &&func) -> decltype(std::declval<F>()(std::declval<std::unique_lock<std::mutex>&>()))
   {
-      std::unique_lock<std::mutex> guard(lock_);
-      auto result = std::forward<F>(func)(guard);
-      notify_one_nolock();
-      return result;
+    std::unique_lock<std::mutex> guard(lock_);
+    auto result = std::forward<F>(func)(guard);
+    notify_one_nolock();
+    return result;
   }
 
   // void 리턴 특수화 - unique_lock을 인자로 받는 람다
@@ -105,9 +105,9 @@ public:
            typename = void>
   void notify_one(F &&func)
   {
-      std::unique_lock<std::mutex> guard(lock_);
-      std::forward<F>(func)(guard);
-      notify_one_nolock();
+    std::unique_lock<std::mutex> guard(lock_);
+    std::forward<F>(func)(guard);
+    notify_one_nolock();
   }
 
   std::unique_lock<std::mutex>
@@ -123,18 +123,6 @@ public:
 
     notify_one_nolock();
   }
-
-  // 1:1 에서는 시그널을 놓치지 않도록 구현되어 있음.
-  //
-  // 1:N 사용에서는 시그널을 놓지는 문제로
-  // notify_all은 사용하지 않음.
-  // void notify_all() { cond_.notify_all(); }
-  //
-  // 시그널을 놓지는 문제는 std::condition_variable의 특성으로
-  // wait가 아닐때 signal을 보내면 wait를 받지 못함.
-  //
-  // N:N 혹은 1:N 모델로 사용하고자 한다면
-  // MSignal을 그룹핑하여 사용하는 방법이 있음.
 
   // false : timeout, true : wakeup
   bool wait(uint32_t tmout_msec = 0) { return this->wait(tmout_msec, nullptr); }
@@ -179,7 +167,7 @@ MSignal::wait(uint32_t tmout_msec, std::function<bool()> func)
 
     if (func != nullptr)
     {
-      if (count++  == 0   ) return func(); // 최초.
+      if (count++  == 0   ) return func();
       if (signaled == true) return func();
     }
 

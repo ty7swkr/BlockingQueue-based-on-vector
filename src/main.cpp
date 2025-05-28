@@ -119,9 +119,9 @@ void runPerformanceTest(size_t testCount) {
     test.stop();
     blockingTime = timer.elapsed();
     blockingThroughput = testCount / blockingTime;
-    std::cout << "Blocking Vector completed in " << std::fixed
+    std::cout << "BlockingVector completed in " << std::fixed
         << std::setprecision(3) << blockingTime << " seconds\n"
-        << "Throughput: " << blockingThroughput << " ops/sec\n\n";
+        << std::setprecision(2) << "Throughput: " << blockingThroughput/1024/1024 << "M ops/sec\n\n";
   }
   std::cout << "sleep for...2 seconds" << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(2));
@@ -149,9 +149,9 @@ void runPerformanceTest(size_t testCount) {
     test.stop();
     lockFreeTime = timer.elapsed();
     lockFreeThroughput = testCount / lockFreeTime;
-    std::cout << "LockFree Queue completed in " << std::fixed
+    std::cout << "BoostLockFree completed in " << std::fixed
         << std::setprecision(3) << lockFreeTime << " seconds\n"
-        << "Throughput: " << lockFreeThroughput << " ops/sec\n\n";
+        << std::setprecision(2) << "Throughput: " << lockFreeThroughput/1024/1024 << "M ops/sec\n\n";
   }
 
   // 성능 차이를 퍼센트로 계산

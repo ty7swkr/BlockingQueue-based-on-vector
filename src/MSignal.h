@@ -118,14 +118,6 @@ public:
 
   void notify_one(std::unique_lock<std::mutex> &guard)
   {
-    if (guard.mutex() != &lock_)
-    {
-      // assert(false && "Wrong mutex passed to notify_one");
-      std::unique_lock<std::mutex> signal_guard(lock_);
-      notify_one_nolock();
-      return;
-    }
-
     if (guard.owns_lock() == false)
       guard.lock();
 
@@ -154,7 +146,7 @@ public:
   // false : timeout, true : wakeup
   bool wait(uint32_t tmout_msec, std::function<bool()> func);
 
-  // lock은 자동 언락됨. 이때 lock는 scoped_acquire_lock의 락을 사용해야함.
+  // lock은 자동 언락됨. 이때 lock는 acquire_scoped_lock의 락을 사용해야함.
   // false : timeout, true : wakeup
   bool wait(std::unique_lock<std::mutex> &guard, uint32_t tmout_msec = 0);
 
@@ -219,29 +211,14 @@ MSignal::wait(std::unique_lock<std::mutex> &guard, uint32_t tmout_msec)
     return false;
   };
 
-  std::unique_lock<std::mutex> *actual_guard = &guard;
-  std::unique_lock<std::mutex>  signal_guard;
-
-  if (guard.mutex() != &lock_)
-  {
-    // assert(false && "Wrong mutex passed to wait");
-    signal_guard = std::unique_lock<std::mutex>(lock_);
-    actual_guard = &signal_guard;
-  }
-  else
-  {
-    if (guard.owns_lock() == false)
-      guard.lock();
-  }
-
   if (tmout_msec == 0)
   {
-    cond_.wait(*actual_guard, pred);
+    cond_.wait(guard, pred);
     return true;
   }
 
   std::chrono::milliseconds timeout(tmout_msec);
-  return cond_.wait_for(*actual_guard, timeout, pred);
+  return cond_.wait_for(guard, timeout, pred);
 }
 
 

@@ -211,6 +211,9 @@ MSignal::wait(std::unique_lock<std::mutex> &guard, uint32_t tmout_msec)
     return false;
   };
 
+  if (guard.owns_lock() == false)
+    guard.lock();
+
   if (tmout_msec == 0)
   {
     cond_.wait(guard, pred);

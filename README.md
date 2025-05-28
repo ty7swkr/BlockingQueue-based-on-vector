@@ -46,106 +46,106 @@ This source is available under MIT license. While you can use it as-is, its simp
 <table style="width: 100%; border-collapse: collapse;">
     <thead>
         <tr>
-            <th rowspan="2" style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">Block Size</th>
-            <th colspan="2" style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">Execution Time (seconds)</th>
-            <th colspan="2" style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">Throughput (ops/sec)</th>
-            <th rowspan="2" style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">% Faster</th>
+            <th rowspan="2" style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5; text-align: center;">Block Size</th>
+            <th colspan="2" style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5; text-align: center;">Execution Time (seconds)</th>
+            <th colspan="2" style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5; text-align: center;">Throughput (ops/sec)</th>
+            <th rowspan="2" style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">% Faster</th>
         </tr>
         <tr>
-            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">BoostLockFree</th>
-            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">BlockingVector</th>
-            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">BoostLockFree</th>
-            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">BlockingVector</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">BoostLockFree</th>
+            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5; text-align: center;">BlockingVector</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">BoostLockFree</th>
+            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5; text-align: center;">BlockingVector</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">8 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1.500</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">0.402</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">6,664,725</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">24,886,699</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">273.41%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">1.500</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">0.402</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">6.66M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">24.89M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">273.41%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">32 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1.501</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">0.402</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">6,663,983</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">24,853,114</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">272.95%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">1.501</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">0.402</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">6.66M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">24.85M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">272.95%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">64 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1.547</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">0.417</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">6,465,314</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">23,995,230</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">271.14%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">1.547</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">0.417</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">6.47M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">24.00M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">271.14%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">128 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1.557</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">0.452</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">6,420,936</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">22,118,989</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">244.48%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">1.557</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">0.452</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">6.42M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">22.12M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">244.48%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">512 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1.767</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">0.945</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">5,659,428</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">10,584,315</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">87.02%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">1.767</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">0.945</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">5.66M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">10.58M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">87.02%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">1024 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">2.049</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">1.123</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">4,879,431</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">8,905,555</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">82.51%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">2.049</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">1.123</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">4.88M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">8.91M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">82.51%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">2048 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">2.418</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">1.898</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">4,134,951</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">5,269,227</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">27.43%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">2.418</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">1.898</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">4.13M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">5.27M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">27.43%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">4096 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">3.195</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">2.630</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">3,130,336</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">3,801,753</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">21.45%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">3.195</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">2.630</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">3.13M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">3.80M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">21.45%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">8192 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">5.519</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">3.499</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1,811,948</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">2,857,988</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">57.73%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">5.519</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">3.499</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">1.81M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">2.86M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">57.73%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">10240 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">6.463</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">3.744</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1,547,197</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">2,671,151</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">72.64%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">6.463</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">3.744</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">1.55M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">2.67M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">72.64%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">20480 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">14.012</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">7.395</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">713,652</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">1,352,230</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">89.48%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">14.012</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">7.395</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">0.71M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">1.35M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">89.48%</td>
         </tr>
     </tbody>
 </table>
@@ -154,106 +154,106 @@ This source is available under MIT license. While you can use it as-is, its simp
 <table style="width: 100%; border-collapse: collapse;">
     <thead>
         <tr>
-            <th rowspan="2" style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">Block Size</th>
-            <th colspan="2" style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">Execution Time (seconds)</th>
-            <th colspan="2" style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">Throughput (ops/sec)</th>
-            <th rowspan="2" style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">% Faster</th>
+            <th rowspan="2" style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5; text-align: center;">Block Size</th>
+            <th colspan="2" style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5; text-align: center;">Execution Time (seconds)</th>
+            <th colspan="2" style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5; text-align: center;">Throughput (ops/sec)</th>
+            <th rowspan="2" style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">% Faster</th>
         </tr>
         <tr>
-            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">BoostLockFree</th>
-            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">BlockingVector</th>
-            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5;">BoostLockFree</th>
-            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5;">BlockingVector</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">BoostLockFree</th>
+            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5; text-align: center;">BlockingVector</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #f5f5f5; text-align: center;">BoostLockFree</th>
+            <th style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; background-color: #f5f5f5; text-align: center;">BlockingVector</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">8 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">3.071</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">0.218</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">3,256,438</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">45,897,923</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1309.45%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">3.071</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">0.218</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">3.26M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">45.90M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">1309.45%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">32 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">3.045</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">0.235</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">3,284,112</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">42,520,299</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1194.73%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">3.045</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">0.235</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">3.28M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">42.52M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">1194.73%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">64 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">3.105</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">0.256</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">3,220,681</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">39,063,747</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1112.90%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">3.105</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">0.256</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">3.22M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">39.06M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">1112.90%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">128 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">3.112</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">0.268</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">3,213,384</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">37,340,571</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1062.03%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">3.112</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">0.268</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">3.21M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">37.34M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">1062.03%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">512 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">3.509</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">0.660</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">2,849,825</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">15,144,245</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">431.41%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">3.509</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">0.660</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">2.85M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">15.14M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">431.41%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">1024 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">3.800</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">0.733</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">2,631,334</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">13,649,849</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">418.74%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">3.800</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">0.733</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">2.63M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">13.65M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">418.74%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">2048 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">5.165</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">1.174</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1,936,289</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">8,514,377</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">339.73%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">5.165</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">1.174</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">1.94M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">8.51M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">339.73%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">4096 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">8.417</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">1.567</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1,188,117</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">6,382,733</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">437.21%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">8.417</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">1.567</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">1.19M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">6.38M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">437.21%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">8192 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">12.478</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">2.607</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">801,413</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">3,835,892</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">378.64%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">12.478</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">2.607</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">0.80M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">3.84M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">378.64%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">10240 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">13.921</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">3.408</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">718,332</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">2,934,279</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">308.49%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">13.921</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">3.408</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">0.72M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">2.93M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">308.49%</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">20480 bytes</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">22.029</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">5.672</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">453,957</td>
-            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px;">1,762,968</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">288.36%</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">22.029</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">5.672</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">0.45M</td>
+            <td style="border: 1px solid #ddd; border-right: 2px solid #bbb; padding: 8px; text-align: right;">1.76M</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">288.36%</td>
         </tr>
     </tbody>
 </table>

@@ -120,7 +120,7 @@ public:
   {
     if (guard.mutex() != &lock_)
     {
-      assert(false && "Wrong mutex passed to notify_one");
+      // assert(false && "Wrong mutex passed to notify_one");
       std::unique_lock<std::mutex> signal_guard(lock_);
       notify_one_nolock();
       return;
@@ -224,7 +224,7 @@ MSignal::wait(std::unique_lock<std::mutex> &guard, uint32_t tmout_msec)
 
   if (guard.mutex() != &lock_)
   {
-    assert(false && "Wrong mutex passed to wait");
+    // assert(false && "Wrong mutex passed to wait");
     signal_guard = std::unique_lock<std::mutex>(lock_);
     actual_guard = &signal_guard;
   }

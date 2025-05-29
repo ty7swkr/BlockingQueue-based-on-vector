@@ -33,7 +33,7 @@ This source is available under MIT license. While you can use it as-is, its simp
   - AMD 7945HX
   - i9-9900K CPU @ 3.60GHz
 * Test Configuration:
-  - Both boost::lockfree::queue and BlockingVector have 100,000 spare buffers per block
+  - Both boost::lockfree::queue and BlockingVector have 100,000 spare buffers
   - 1:1 exchange between Producer and Consumer
   - 10,000,000 transmissions with varying block sizes: 8, 32, 64, 128, 512, 1024, 2048, 4096, 8192, 10240, 20480
   - Note: Test block size 20480 requires 32GB of memory
